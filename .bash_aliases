@@ -41,7 +41,15 @@ alias dfh="df -h"
 alias dush="du -s -h"
 
 # a better less  - should be in a conditional, per host
-alias less='/usr/share/vim/vim81/macros/less.sh'
+if [ -f /usr/share/vim/vim81/macros/less.sh ]; then
+    # good, reasonably up to date host
+    alias less='/usr/share/vim/vim81/macros/less.sh'
+elif [ -f /usr/share/vim/vim80/macros/less.sh ]; then
+    # Sphyrna Mac - we can do better, but this will work for now
+    alias less='/usr/share/vim/vim80/macros/less.sh'
+else
+    echo; echo You may want to find less.sh manually, using pure less for now.; echo
+fi
 
 # 2020-03-26 - many CSDPAC-related aliases - could put them in a conditional...
 
