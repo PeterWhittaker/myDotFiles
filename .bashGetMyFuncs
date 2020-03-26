@@ -1,0 +1,1 @@
+[ -f ~/.bashMyFuncs ] && source ~/.bashMyFuncs || { echo Cannot proceed; exit 1; }

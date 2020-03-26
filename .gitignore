@@ -1,0 +1,13 @@
+# .gitignore for my ~ directory
+# ignore everything in ~
+*
+
+# except specific configuration files
+!.bashrc
+!.bashGetMyFuncs
+!.bashMyFuncs
+!.bash_aliases
+!.bash_profile
+!.gitignore
+!.inputrc
+!.vimrc
