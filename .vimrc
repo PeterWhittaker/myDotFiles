@@ -6,6 +6,7 @@ set ruler
 set showcmd
 set visualbell
 set nostartofline
+set mouse=nvh
 
 highlight Comment ctermfg=DarkGrey guifg=DarkGrey cterm=underline
 
