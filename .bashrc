@@ -1,5 +1,66 @@
-# ~/.bashrc: executed by bash(1) for non-login shells.
+# pww .bashrc - everything starts here, though not everything finishes here
+# pww .bash_profile just calls this, this does a few "always" things, then
+# this checks for interactivity, exiting if not interactive, continuing on
+# to do interactive things otherwise
 
+# first, some helper functions related to platform, because some "always"
+# things are platform-dependent
+
+function isWSL {
+    false
+}
+function isCygwin {
+    false
+}
+function isLinux {
+    false
+}
+function isMacOS {
+    false
+}
+
+case $OSTYPE in
+    darwin*)
+        function isMacOS {
+            true
+        }
+        ;;
+    cygwin*)
+        function isCygwin {
+            true
+        }
+        ;;
+    linux-gnu*)
+        function isLinux {
+            true
+        }
+        case $(uname -r) in
+            *Microsoft)
+                function isWSL {
+                    true
+                }
+                ;;
+            *)
+                :
+                ;;
+        esac
+        ;;
+    *)
+        echo; echo "What OS is this?"; echo
+        ;;
+esac
+echo done
+exit
+# To take advantage of brew recipes
+# NOTE: Should likely make this machine dependent
+PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin
+
+# set PATH to includes my bin if it exists
+if [ -d ~/bin ] ; then
+    PATH=~/bin:"${PATH}"
+fi
+
+export PATH
 # If not running interactively, don't do anything
 case $- in
     *i*) ;;
@@ -8,6 +69,9 @@ esac
 # THE OTHER WAY OF DOING IT - CHECK THIS OUT A BIT
 # If not running interactively, don't do anything
 # [ -z "$PS1" ] && return
+
+umask 022
+
 
 # don't put duplicate lines or lines starting with space in the history.
 # See bash(1) for more options
