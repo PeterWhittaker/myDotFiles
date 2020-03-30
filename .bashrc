@@ -3,7 +3,10 @@
 # this checks for interactivity, exiting if not interactive, continuing on
 # to do interactive things otherwise
 
-# first, some helper functions related to platform, because some "always"
+# first, good practices that always make sense
+umask 022
+
+# next, some helper functions related to platform, because some "always"
 # things are platform-dependent
 
 function isWSL {
@@ -49,38 +52,44 @@ case $OSTYPE in
         echo; echo "What OS is this?"; echo
         ;;
 esac
-echo done
-exit
-# To take advantage of brew recipes
-# NOTE: Should likely make this machine dependent
-PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin
 
+if [ -z "${PATH}" ]; then
+    # there should be a default path, but in some weird cases, perhaps not
+    # set a reasonable default
+    PATH=/usr/bin:/bin:/usr/sbin:/sbin
+    export PATH
+fi
+
+# now things get interesting....
+# I have to check when I need this
+# isMacOS && PATH=/usr/local/bin:"${PATH}" # take advantage of brew recipes
+
+# always prepend my bin, if it exists
 # set PATH to includes my bin if it exists
 if [ -d ~/bin ] ; then
     PATH=~/bin:"${PATH}"
 fi
 
-export PATH
-# If not running interactively, don't do anything
+# If not running interactively, stop here, we've done enough
 case $- in
-    *i*) ;;
-      *) return;;
+    *i*)
+        # this is an interactive shell, continue
+        :
+        ;;
+      *)
+        # this shell is not interactive, we're done
+        return
+        ;;
 esac
-# THE OTHER WAY OF DOING IT - CHECK THIS OUT A BIT
-# If not running interactively, don't do anything
-# [ -z "$PS1" ] && return
 
-umask 022
-
-
-# don't put duplicate lines or lines starting with space in the history.
-# See bash(1) for more options
-HISTCONTROL=ignoreboth
+# don't put consecutive duplicate lines in the history.
+# we're OK with lines beginning with space
+HISTCONTROL=ignoredups
 
 # append to the history file, don't overwrite it
 shopt -s histappend
 
-# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
+# keep a lot of history, we're fond of it
 HISTSIZE=2000
 HISTFILESIZE=4000
 
@@ -124,6 +133,8 @@ if [ -n "$force_color_prompt" ]; then
     fi
 fi
 
+# incorporate this Cygwin PS1
+# '\[\e]0;\w\a\]\n\[\e[32m\]\u@\h \[\e[33m\]\w\[\e[0m\]\n\$ '
 if [ "$color_prompt" = yes ]; then
     PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
 else
