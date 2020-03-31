@@ -88,3 +88,7 @@ if [ -d ~/eclipse ]; then
         alias jump='cd ~/csdpac-workflows/template/tra-workflow'
 
 fi
+
+# 2020-03-31 - easier SSH key management, especially for git
+# requires that the key file be specified
+alias addkeys='eval "$(ssh-agent -s)"; ssh-add'
