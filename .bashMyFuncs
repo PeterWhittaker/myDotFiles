@@ -1,6 +1,16 @@
-
 die () {
     echo $@
     exit 1
 }
 
+# frikkin' MacOS differences da marde....
+if [ ! isMacOS ]; then 
+    seconds () {
+        dateThis="${@:-$(date)}";
+        date +%s -d "${dateThis}"
+    }
+
+    when () {
+        date -d "@${1:-$(seconds)}"
+    }
+fi
