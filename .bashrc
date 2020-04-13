@@ -63,6 +63,22 @@ fi
 # now things get interesting....
 # I have to check when I need this
 # isMacOS && PATH=/usr/local/bin:"${PATH}" # take advantage of brew recipes
+#if isMacOS; then
+#    PATH="/usr/local/opt/icu4c/bin:$PATH"
+#    PATH="/usr/local/opt/icu4c/sbin:$PATH"
+#    export LDFLAGS="-L/usr/local/opt/icu4c/lib"
+#    export CPPFLAGS="-I/usr/local/opt/icu4c/include"
+#  PATH="/usr/local/opt/ruby/bin:$PATH"
+#  export LDFLAGS="-L/usr/local/opt/ruby/lib"
+#  export CPPFLAGS="-I/usr/local/opt/ruby/include"
+#  PATH="/usr/local/opt/python@3.8/bin:$PATH"
+#  export LDFLAGS="-L/usr/local/opt/python@3.8/lib"
+#  export PKG_CONFIG_PATH="/usr/local/opt/python@3.8/lib/pkgconfig"
+#  PATH="/usr/local/opt/openssl@1.1/bin:$PATH"
+#  export LDFLAGS="-L/usr/local/opt/openssl@1.1/lib"
+#  export CPPFLAGS="-I/usr/local/opt/openssl@1.1/include"
+#  export PKG_CONFIG_PATH="/usr/local/opt/openssl@1.1/lib/pkgconfig"
+#fi
 
 # always prepend my bin, if it exists
 # set PATH to includes my bin if it exists
