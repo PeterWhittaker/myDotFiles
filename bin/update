@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# brew install node
+# npm install [-g] npm-check
+# npm install [-g] eslint
+
+brew update
+brew upgrade
+read -p "Ready to continue with npm and node? " answer
+npm-check -u -g
+npm-check -u
+node -v
+npm -v
+
+
