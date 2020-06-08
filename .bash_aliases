@@ -49,16 +49,11 @@ function grpkill () {
 alias dfh="df -h"
 alias dush="du -s -h"
 
-# a better less  - should be in a conditional, per host
-if [ -f /usr/share/vim/vim81/macros/less.sh ]; then
-    # good, reasonably up to date host
-    alias less='/usr/share/vim/vim81/macros/less.sh'
-elif [ -f /usr/share/vim/vim80/macros/less.sh ]; then
-    # Sphyrna Mac - we can do better, but this will work for now
-    alias less='/usr/share/vim/vim80/macros/less.sh'
-else
-    echo; echo You may want to find less.sh manually, using pure less for now.; echo
-fi
+# if available, use a better less  - warning, this is gross but unavoidable
+vimrntm=$(vim --not-a-term -T dumb --cmd 'echo $VIMRUNTIME' --cmd quit|tr -d '\n\r' |sed -E 's,[^/]+,,')
+vimless=${vimrntm}/macros/less.sh
+[[ -x ${vimless} ]] && alias less=${vimless} || { \
+    echo; echo You may want to find less.sh manually, using pure less for now.; echo; }
 
 # 2020-03-26 - many CSDPAC-related aliases
 # 2020-03-30 - trying a conditional
