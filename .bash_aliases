@@ -49,8 +49,8 @@ function grpkill () {
 alias dfh="df -h"
 alias dush="du -s -h"
 
-# if available, use a better less  - warning, this is gross but unavoidable
-vimrntm=$(vim --not-a-term -T dumb --cmd 'echo $VIMRUNTIME' --cmd quit|tr -d '\n\r' |sed -E 's,[^/]+,,')
+# if available, use a better less
+vimrntm=$(vim -u NONE -es -c '!echo $VIMRUNTIME' -c q)
 vimless=${vimrntm}/macros/less.sh
 [[ -x ${vimless} ]] && alias less=${vimless} || { \
     echo; echo You may want to find less.sh manually, using pure less for now.; echo; }

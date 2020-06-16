@@ -3,6 +3,8 @@
 *
 
 # except specific configuration files
+!manifest
+!status
 !.bashrc
 !.bashGetMyFuncs
 !.bashMyFuncs
@@ -11,3 +13,4 @@
 !.gitignore
 !.inputrc
 !.vimrc
+!bin/update

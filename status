@@ -1,0 +1,37 @@
+#!/bin/bash
+
+myHome=~
+myDir=$(dirname $0)
+cd $myDir || { echo "Cannot get to my ${myDir}, exiting."; exit 1; }
+myDir=$(pwd)
+#double check
+cd $myDir || { echo "Cannot get to my ${myDir}, exiting."; exit 3; }
+
+theManifest=${myDir}/manifest
+[[ ! -s ${theManifest} ]] && { echo "No manifest, very odd, exiting."; exit 5; }
+
+fileList=$(cat manifest)
+
+anyDiffs=no
+for file in $fileList; do
+    diff -q ${myHome}/${file} ${myDir}/${file}
+    rc=$?
+    if [[ $rc -ne 0 ]]; then
+        anyDiffs=yes
+        diff -c ${myHome}/${file} ${myDir}/${file}
+        read -p "Replace $file in ~? " answer
+        echo $answer
+        case $answer in
+            y*|Y*)
+                cp -p ${myDir}/${file} ${myHome}/${file}
+                ;;
+            *)
+                :
+                ;;
+        esac
+    fi
+done
+
+[[ ${anyDiffs} = no ]] && echo "No diffs, no need to change anything."
+
+
