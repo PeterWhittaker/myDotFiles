@@ -9,7 +9,7 @@ function fndi () {
 
 	tgt="${1}"; shift
 	echo find . -iname \*"${tgt}"\* "${@}"
-	find . -iname \*"${tgt}"\* "${@}"
+	find . -iname \*"${tgt}"\* "${@}" 2> /dev/null
 }
 
 
