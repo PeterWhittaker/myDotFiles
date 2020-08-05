@@ -60,31 +60,98 @@ if [ -z "${PATH}" ]; then
     export PATH
 fi
 
-# now things get interesting....
-# I have to check when I need this
-# isMacOS && PATH=/usr/local/bin:"${PATH}" # take advantage of brew recipes
-#if isMacOS; then
-#    PATH="/usr/local/opt/icu4c/bin:$PATH"
-#    PATH="/usr/local/opt/icu4c/sbin:$PATH"
-#    export LDFLAGS="-L/usr/local/opt/icu4c/lib"
-#    export CPPFLAGS="-I/usr/local/opt/icu4c/include"
-#  PATH="/usr/local/opt/ruby/bin:$PATH"
-#  export LDFLAGS="-L/usr/local/opt/ruby/lib"
-#  export CPPFLAGS="-I/usr/local/opt/ruby/include"
-#  PATH="/usr/local/opt/python@3.8/bin:$PATH"
-#  export LDFLAGS="-L/usr/local/opt/python@3.8/lib"
-#  export PKG_CONFIG_PATH="/usr/local/opt/python@3.8/lib/pkgconfig"
-#  PATH="/usr/local/opt/openssl@1.1/bin:$PATH"
-#  export LDFLAGS="-L/usr/local/opt/openssl@1.1/lib"
-#  export CPPFLAGS="-I/usr/local/opt/openssl@1.1/include"
-#  export PKG_CONFIG_PATH="/usr/local/opt/openssl@1.1/lib/pkgconfig"
-#fi
+isInPath () {
+    path="$1"
+    want="$2"
+    extras=$3
 
-# always prepend my bin, if it exists
-# set PATH to includes my bin if it exists
-if [ -d ~/bin ] ; then
-    PATH=~/bin:"${PATH}"
+    # we need exactly two arguments; anything else is probably a quoting problem
+    if [[ -z "$path" || -z "$want" || -n "$extras" ]]; then
+        echo "$FUNCNAME requires PATH WANT; called with '$path' '$want' $3; doing nothing"
+        return 1
+    fi
+
+    # if $path is empty, $want obviously isn't present
+    [[ -z "${!path}" ]] && return 1
+
+    # replace any ~ with $HOME, to be on the safe side
+    [[ "$want" == *"~"* ]] && want="${want/#\~/$HOME}"
+
+    if [[ "${!path}" != *"$want"* ]]; then
+        # echo "NEED: no '$want' in '${!path}'" 
+        return 1
+    else
+        # echo "GOOD: '$want' is in '${!path}'"
+        return 0
+    fi
+}
+
+checkFor () {
+    path="$1"
+    want="$2"
+    extras=$3
+
+    if [[ -z "$path" || -z "$want" || -n "$extras" ]]; then
+        echo "$FUNCNAME requires PATH WANT; called with '$path' '$want' $3; doing nothing"
+        return 1
+    fi
+
+    # if the desired folder doesn't exist, return - nothing to add
+    [[ -d "$want" ]] || return
+
+    # if the wanted folder is in the path, return - nothing to add
+    isInPath "$path" "$want" && return
+
+    # we only get here if we need to add to the path
+    # now we need to know what type of path it is
+    case $path in
+        PATH)
+            export PATH="${want}:${!path}"
+            ;;
+        PKG_CONFIG_PATH)
+            export PKG_CONFIG_PATH="${want}:${!path}"
+            ;;
+        LDFLAGS)
+            export LDFLAGS="-L${want} ${!path}"
+            ;;
+        CPPFLAGS)
+            export CPPFLAGS="-I${want} ${!path}"
+            ;;
+    esac
+}
+
+# Take full advantage of BREW, if on Mac OS and if it installed
+if isMacOS; then
+
+    # linked brew formula
+    checkFor PATH /usr/local/bin
+    
+    # ic4uc items
+    checkFor PATH "/usr/local/opt/icu4c/bin"
+    checkFor PATH "/usr/local/opt/icu4c/sbin"
+    checkFor LDFLAGS /usr/local/opt/icu4c/lib"
+    checkFor CPPFLAGS /usr/local/opt/icu4c/include"
+
+    # ruby items
+    checkFor PATH "/usr/local/opt/ruby/bin"
+    checkFor LDFLAGS "/usr/local/opt/ruby/lib"
+    checkFor CPPFLAGS "/usr/local/opt/ruby/include"
+
+    # python items
+    checkFor PATH "/usr/local/opt/python@3.8/bin"
+    checkFor LDFLAGS "/usr/local/opt/python@3.8/lib"
+    checkFor PKG_CONFIG_PATH "/usr/local/opt/python@3.8/lib/pkgconfig"
+
+    # openssl items
+    checkFor PATH "/usr/local/opt/openssl@1.1/bin"
+    checkFor LDFLAGS "/usr/local/opt/openssl@1.1/lib"
+    checkFor CPPFLAGS "/usr/local/opt/openssl@1.1/include"
+    checkFor PKG_CONFIG_PATH "/usr/local/opt/openssl@1.1/lib/pkgconfig"
+
 fi
+
+# always prepend my bin, if it exists and is not already there
+checkFor PATH ~/bin
 
 # If not running interactively, stop here, we've done enough
 case $- in
