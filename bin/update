@@ -4,9 +4,13 @@
 # npm install [-g] npm-check
 # npm install [-g] eslint
 
+echo Updating brew....
 brew update
+echo Upgrading brew....
 brew upgrade
-read -p "Ready to continue with npm and node? " answer
+echo Updating gems
+gem update
+read -p "Ready to continue with npm and node (ctrl-c to skip)? " answer
 npm-check -u -g
 npm-check -u
 node -v
