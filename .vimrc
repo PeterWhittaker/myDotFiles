@@ -11,3 +11,6 @@ set mouse=nvh
 
 highlight Comment ctermfg=DarkGrey guifg=DarkGrey cterm=underline
 
+autocmd FileType make set noexpandtab shiftwidth=8 softtabstop=0
+
+
