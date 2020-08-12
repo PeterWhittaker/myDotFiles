@@ -138,15 +138,21 @@ if isMacOS; then
     checkFor CPPFLAGS "/usr/local/opt/ruby/include"
 
     # python items
-    checkFor PATH "/usr/local/opt/python@3.8/bin"
-    checkFor LDFLAGS "/usr/local/opt/python@3.8/lib"
-    checkFor PKG_CONFIG_PATH "/usr/local/opt/python@3.8/lib/pkgconfig"
+    checkFor PATH "/usr/local/opt/python/bin"
+    checkFor LDFLAGS "/usr/local/opt/python/lib"
+    checkFor PKG_CONFIG_PATH "/usr/local/opt/python/lib/pkgconfig"
+
+    # sqlite items - installed with brew install python
+    # commented out for now because unsure if needed
+    #checkFor PATH "/usr/local/opt/sqlite/bin"
+    #checkFor LDFLAGS "/usr/local/opt/sqlite/lib"
+    #checkFor CPPFLAGS "/usr/local/opt/sqlite/include"
 
     # openssl items
-    checkFor PATH "/usr/local/opt/openssl@1.1/bin"
-    checkFor LDFLAGS "/usr/local/opt/openssl@1.1/lib"
-    checkFor CPPFLAGS "/usr/local/opt/openssl@1.1/include"
-    checkFor PKG_CONFIG_PATH "/usr/local/opt/openssl@1.1/lib/pkgconfig"
+    checkFor PATH "/usr/local/opt/openssl/bin"
+    checkFor LDFLAGS "/usr/local/opt/openssl/lib"
+    checkFor CPPFLAGS "/usr/local/opt/openssl/include"
+    checkFor PKG_CONFIG_PATH "/usr/local/opt/openssl/lib/pkgconfig"
 
 fi
 
