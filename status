@@ -18,7 +18,7 @@ for file in $fileList; do
     rc=$?
     if [[ $rc -ne 0 ]]; then
         anyDiffs=yes
-        diff -c ${myHome}/${file} ${myDir}/${file}
+        diff -u ${myHome}/${file} ${myDir}/${file}
         read -p "Replace $file in ~? " answer
         echo $answer
         case $answer in
