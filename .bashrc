@@ -138,6 +138,10 @@ if isMacOS; then
     checkFor CPPFLAGS "/usr/local/opt/ruby/include"
 
     # python items
+    # switch/change/remove these PATH items as necessary
+    # I'm never using python 2, so default to 3
+    checkFor PATH "/usr/local/opt/python/libexec/bin"
+    # keep the 3 executables for conversions
     checkFor PATH "/usr/local/opt/python/bin"
     checkFor LDFLAGS "/usr/local/opt/python/lib"
     checkFor PKG_CONFIG_PATH "/usr/local/opt/python/lib/pkgconfig"
