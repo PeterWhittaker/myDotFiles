@@ -25,6 +25,9 @@ for file in $fileList; do
             y*|Y*)
                 cp -p ${myDir}/${file} ${myHome}/${file}
                 ;;
+            swap)
+                cp -p ${myHome}/${file} ${myDir}/${file} 
+                ;;
             *)
                 :
                 ;;
