@@ -13,8 +13,13 @@ if isMacOS; then
     brew update
     echo Upgrading brew....
     brew upgrade
+    echo Checking brew....
+    brew doctor
+    echo
+    read -p "Ready to continue with gems (ctrl-c to skip)? " answer
     echo Updating gems
     gem update
+    echo
     read -p "Ready to continue with npm and node (ctrl-c to skip)? " answer
     npm-check -u -g
     npm-check -u
