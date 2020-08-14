@@ -4,12 +4,23 @@ function nwst () {
 	ls -alt $@ | head
 }
 
-# pww 20081008 - more convenient find
+# pww 2020-08-14 - type most of this a lot.
+fndg () {
+    startIn=.
+    [[ ! -z $2 ]] && { startIn=$1; shift; }
+    [[ -z $1 ]] && { echo "No target specified, cannot proceed."; return; }
+    tgt=$1
+    echo find . -type f -exec grep -i -H "${tgt}" {} \;
+    find ${startIn} -type f -exec grep -i -H "${tgt}" {} \; 2> /dev/null
+}
+
+# pww 20081008 - more convenient find, when just looking for files/folders
 function fndi () {
 
 	tgt="${1}"; shift
 	echo find . -iname \*"${tgt}"\* "${@}"
 	find . -iname \*"${tgt}"\* "${@}" 2> /dev/null
+    [[ -z $1 ]] && { echo; echo "No target was specified, did the results surprise?"; }
 }
 
 
