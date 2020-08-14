@@ -20,7 +20,7 @@ function fndi () {
 	tgt="${1}"; shift
 	echo find . -iname \*"${tgt}"\* "${@}"
 	find . -iname \*"${tgt}"\* "${@}" 2> /dev/null
-    [[ -z $1 ]] && { echo; echo "No target was specified, did the results surprise?"; }
+    [[ -z $tgt ]] && { echo; echo "No target was specified, did the results surprise?"; }
 }
 
 
