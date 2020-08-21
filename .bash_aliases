@@ -6,14 +6,29 @@ function nwst () {
 
 # pww 2020-08-14 - type most of this a lot.
 fndg () {
-    shopt -s nocasematch
-    [[ $1 == "-dobin" ]] && { binOpt=""; shift; } || binOpt="-I"
+    binOpt="-I"; wordOpt=""
+    while true; do
+        if [[ -z $1 || $1 =~ ^[^-] ]]; then break; fi
+        case $1 in
+            -B)
+                binOpt=""
+                ;;
+            -w)
+                wordOpt="-w"
+                ;;
+            *)
+                echo "Unrecognized option '${1}', cannot proceed."
+                return 1
+                ;;
+        esac
+        shift
+    done
     startIn=.
     [[ ! -z $2 ]] && { startIn=$1; shift; }
     [[ -z $1 ]] && { echo "No target specified, cannot proceed."; return; }
     tgt=$1
-    echo find . -type f -exec grep -i -H "${tgt}" {} \;
-    find ${startIn} -type f -exec grep $binOpt -i -H "${tgt}" {} \; 2> /dev/null
+    echo find ${startIn} -type f -exec grep $binOpt $wordOpt -i -H "${tgt}" {} \;
+    find ${startIn} -type f -exec grep $binOpt $wordOpt -i -H "${tgt}" {} \; 2> /dev/null
 }
 
 # pww 20081008 - more convenient find, when just looking for files/folders

@@ -9,12 +9,23 @@ if isMacOS; then
     # npm install [-g] npm-check
     # npm install [-g] eslint
 
+    runBrewCleanup () {
+        read -p "Run 'brew cleanup'? " answer
+        case $answer in
+            y*|Y*)
+                brew cleanup
+                ;;
+            *)
+                :
+                ;;
+        esac
+    }
     echo Updating brew....
     brew update
     echo Upgrading brew....
     brew upgrade
     echo Checking brew....
-    brew doctor
+    brew doctor || runBrewCleanup
     echo
     read -p "Ready to continue with gems (ctrl-c to skip)? " answer
     echo Updating gems
