@@ -22,6 +22,21 @@ function isMacOS {
     false
 }
 
+function isBash5plus {
+    case ${BASH_VERSINFO[0]} in
+        1|2|3|4)
+            false
+            ;;
+        5)
+            true
+            ;;
+        *)
+            echo "Validate bash version before proceeding."
+            false
+            ;;
+    esac
+}
+
 case $OSTYPE in
     darwin*)
         function isMacOS {
@@ -292,3 +307,57 @@ if ! shopt -oq posix; then
   fi
 fi
 
+function _setAndReloadHistory {
+    builtin history -a
+    builtin history -c
+    builtin history -r
+}
+
+##############################################
+# Manage shell history - there is lot here....
+# It is last, because for reasons I do not yet grok,
+# everything that occurs after this in this file is
+# recorded in my command history, which I find odd.
+if isBash5plus; then
+
+    # preserve shell history
+    set -o history
+    # preserve multiline commands...
+    shopt -s cmdhist
+    # preserve multiline command as literally as possible
+    shopt -s lithist
+    # reedit failed history substitutions
+    shopt -s histreedit
+    # enforce careful mode... we'll see how this goes
+    shopt -s histverify
+
+    # timestamp all history entries
+    # from stackexchange: The format '%FT%T ' shows the time but only when using the history command
+    # HISTTIMEFORMAT='%FT%T '
+    HISTTIMEFORMAT='%Y-%m-%d:%H:%M '
+
+    # not the default, we like to be explicit that we are not using defaults
+    HISTFILE=~/.bash_eternal_history
+    # preserve all history, forever
+    HISTSIZE=-1
+    # preserve all history, forever, on disk
+    HISTFILESIZE=-1
+    # record only one instance of a command repeated after itself
+    HISTCONTROL=ignoredupes
+
+    # preserve history across/between shell sessions...
+    # ...when the shell exits...
+    shopt -s histappend
+    # ...and after every command...
+    PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND; } _setAndReloadHistory"
+
+else
+
+    # This is tricky - what is the best pre-5 approach?
+    # For now, do nothing, accept shell and system defaults,
+    # knowing that on Mac OS, at least, the presence of 
+    #   .bash_sessions_disable
+    # is going to disable session-based history preservation
+    echo 'Validate history management strategy for this platform.'
+    [[ isMacOS ]] && echo "You may need to change to a brew-installed shell."
+fi
