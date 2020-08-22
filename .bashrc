@@ -196,7 +196,8 @@ shopt -s checkwinsize
 
 # if I am using less, make it more friendly
 # better search result positioning in the viewport
-LESS="-j22"
+# this should be an environment variable
+export LESS="-j22"
 # make less more friendly for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
