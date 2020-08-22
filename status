@@ -8,12 +8,17 @@ myDir=$(pwd)
 cd $myDir || { echo "Cannot get to my ${myDir}, exiting."; exit 3; }
 
 theManifest=${myDir}/manifest
+macOnly=.bash_sessions_disable
 [[ ! -s ${theManifest} ]] && { echo "No manifest, very odd, exiting."; exit 5; }
 
 fileList=$(cat manifest)
 
 anyDiffs=no
 for file in $fileList; do
+    # really, we should make the body of this loop a function, and
+    # execute it once for the manifest and once for platform-specific
+    # files - this will work for now
+    [[ $file == $macOnly && ! isMacOS ]] && continue
     diff -q ${myHome}/${file} ${myDir}/${file}
     rc=$?
     if [[ $rc -ne 0 ]]; then
