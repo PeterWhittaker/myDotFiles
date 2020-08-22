@@ -48,6 +48,9 @@ alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
 alias lt='ls -alt'
+# Don't do this, just always pump diff through less,
+# which is actually the vim macro
+# alias diff='diff --color=always'
 
 # pww 20180201 - 2020-03-30 if only if were that simple
 # alias vi=vim
