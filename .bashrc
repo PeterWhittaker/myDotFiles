@@ -343,7 +343,7 @@ if isBash5plus; then
     # preserve all history, forever, on disk
     HISTFILESIZE=-1
     # record only one instance of a command repeated after itself
-    HISTCONTROL=ignoredupes
+    HISTCONTROL=ignoredups
 
     # preserve history across/between shell sessions...
     # ...when the shell exits...
