@@ -3,6 +3,7 @@
 .bash_aliases
 .bash_profile
 .bashrc
+.bash_sessions_disable
 .inputrc
 .vimrc
 bin/update
