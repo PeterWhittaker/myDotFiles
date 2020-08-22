@@ -10,6 +10,7 @@
 !.bashMyFuncs
 !.bash_aliases
 !.bash_profile
+!.bash_sessions_disable
 !.gitignore
 !.inputrc
 !.vimrc
