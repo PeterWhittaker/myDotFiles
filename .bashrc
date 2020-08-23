@@ -190,21 +190,6 @@ case $- in
         ;;
 esac
 
-# don't put consecutive duplicate lines in the history.
-# we're OK with lines beginning with space
-HISTCONTROL=ignoredups
-
-# append to the history file, don't overwrite it
-shopt -s histappend
-
-# keep a lot of history, we're fond of it
-HISTSIZE=2000
-HISTFILESIZE=4000
-
-# check the window size after each command and, if necessary,
-# update the values of LINES and COLUMNS.
-shopt -s checkwinsize
-
 # If set, the pattern "**" used in a pathname expansion context will
 # match all files and zero or more directories and subdirectories.
 #shopt -s globstar
@@ -359,5 +344,14 @@ else
     #   .bash_sessions_disable
     # is going to disable session-based history preservation
     echo 'Validate history management strategy for this platform.'
+    echo "Current settings are:"
+    set | grep -i hist
     [[ isMacOS ]] && echo "You may need to change to a brew-installed shell."
+    # Defaults on Mac OS with
+    # GNU bash, version 3.2.57(1)-release (x86_64-apple-darwin19)
+    #HISTFILE=/Users/pww/.bash_history
+    #HISTFILESIZE=500
+    #HISTSIZE=500
+    # shopt -s history
+    # shopt -s histexpand
 fi
