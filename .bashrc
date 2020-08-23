@@ -196,8 +196,9 @@ esac
 
 # if I am using less, make it more friendly
 # better search result positioning in the viewport
+# always respect color (good for git diff)
 # this should be an environment variable
-export LESS="-j22"
+export LESS="${LESS:+LESS} -j22 -r"
 # make less more friendly for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
