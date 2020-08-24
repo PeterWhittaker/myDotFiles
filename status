@@ -18,8 +18,8 @@ for file in $fileList; do
     # really, we should make the body of this loop a function, and
     # execute it once for the manifest and once for platform-specific
     # files - this will work for now
-    [[ $file == $macOnly ]] || isMacOS && continue
-    diff -q ${myHome}/${file} ${myDir}/${file}
+    [[ $file == $macOnly ]] && if ! isMacOS; then continue; fi
+    diff -q ${myHome}/${file} ${myDir}/${file} 2> /dev/null
     rc=$?
     if [[ $rc -ne 0 ]]; then
         anyDiffs=yes
