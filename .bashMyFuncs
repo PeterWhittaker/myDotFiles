@@ -4,7 +4,7 @@ die () {
 }
 
 # frikkin' MacOS differences da marde....
-if [ ! isMacOS ]; then 
+if ! isMacOS; then 
     seconds () {
         dateThis="${@:-$(date)}";
         date +%s -d "${dateThis}"

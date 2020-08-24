@@ -9,6 +9,9 @@ umask 022
 # next, some helper functions related to platform, because some "always"
 # things are platform-dependent
 
+# NOTE: Export these, because they get used in scripts
+
+set -a
 function isWSL {
     false
 }
@@ -21,6 +24,7 @@ function isLinux {
 function isMacOS {
     false
 }
+set +a
 
 function isBash5plus {
     case ${BASH_VERSINFO[0]} in
@@ -274,7 +278,10 @@ fi
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 
 # source my useful functions if it exists
-[ -f ~/.bashMyFuncs ] && source ~/.bashMyFuncs || { echo Cannot proceed; exit 1; }
+# if these exist, we want them in the environment
+set -a
+[ -f ~/.bashMyFuncs ] && source ~/.bashMyFuncs || echo "Could not find ~/.bashMyFuncs"
+set +a
 
 # Alias definitions.
 
