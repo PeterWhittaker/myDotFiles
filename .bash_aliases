@@ -23,7 +23,8 @@ fndg () {
         esac
         shift
     done
-    startIn=.
+    # if there are multiple arguments, the last one is the search
+    # target, the rest control where and how find searches....
     if [[ -z $2 ]]; then
         startIn=.
     else
