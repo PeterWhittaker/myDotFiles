@@ -24,7 +24,15 @@ fndg () {
         shift
     done
     startIn=.
-    [[ ! -z $2 ]] && { startIn=$1; shift; }
+    if [[ -z $2 ]]; then
+        startIn=.
+    else
+        startIn=''
+        while [[ ! -z $2 ]]; do
+            startIn+="$1 "
+            shift
+        done
+    fi
     [[ -z $1 ]] && { echo "No target specified, cannot proceed."; return; }
     tgt=$1
     echo find ${startIn} -type f -exec grep $binOpt $wordOpt -i -H "${tgt}" {} \;
