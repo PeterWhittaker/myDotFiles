@@ -103,24 +103,9 @@ if [ -d ~/eclipse ]; then
 
         alias eclipse='nohup ~/eclipse/java-2019-122/eclipse/eclipse &>/dev/null &'
         alias camunda-modeler='nohup ~/camunda-modeler-3.6.0-linux-x64/camunda-modeler &>/dev/null &'
-        alias munmod=camunda-modeler
-        alias modeler=camunda-modeler
 
-        alias camunda='~/bin/cammng'
-        alias camundo='camunda start'
-        alias camundead='camunda stop'
-        alias munkick='camunda restart'
-
-        alias warcopy='camunda warcopy'
-
-        alias munda=camundo
-        alias mundead=camundead
-        alias munnew='camunda newwar'
-        alias newwar=munnew
-        alias whichwar='camunda lswars'
-        alias whichwars=whichwar
-
-        alias jump='cd ~/csdpac-workflows/template/tra-workflow'
+        alias jumpt='pushd ~/csdpac-workflows/template/tra-workflow'
+        alias jumps='pushd ~/csdpac-workflows/template/sample-verity-workflow'
 
 fi
 
