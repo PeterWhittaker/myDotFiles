@@ -8,22 +8,22 @@ myDir=$(pwd)
 cd $myDir || { echo "Cannot get to my ${myDir}, exiting."; exit 3; }
 
 theManifest=${myDir}/manifest
-macOnly=.bash_sessions_disable
 [[ ! -s ${theManifest} ]] && { echo "No manifest, very odd, exiting."; exit 5; }
 
-fileList=$(cat manifest)
+# this sets fileManifest
+source "${theManifest}" || { echo "Cannot source '${theManifest}', exiting."; exit 7; }
+
+# everything should be good to go now; get defensive
+set -u
 
 anyDiffs=no
-for file in $fileList; do
-    # really, we should make the body of this loop a function, and
-    # execute it once for the manifest and once for platform-specific
-    # files - this will work for now
-    [[ $file == $macOnly ]] && if ! isMacOS; then continue; fi
+for file in $fileManifest; do
     diff -q ${myHome}/${file} ${myDir}/${file} 2> /dev/null
     rc=$?
     if [[ $rc -ne 0 ]]; then
         anyDiffs=yes
         diff --color=always -u ${myHome}/${file} ${myDir}/${file}
+        echo; echo "If + is wanted, 'y'; if - is wanted, 'swap'; otherwise, anything else."
         read -p "Replace $file in ~? " answer
         echo $answer
         case $answer in
@@ -41,5 +41,4 @@ for file in $fileList; do
 done
 
 [[ ${anyDiffs} = no ]] && echo "No diffs, no need to change anything."
-
 

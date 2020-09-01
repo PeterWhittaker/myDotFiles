@@ -7,9 +7,13 @@ function nwst () {
 # pww 2020-08-14 - type most of this a lot.
 fndg () {
     binOpt="-I"; wordOpt=""
+    caseOpt="-i"
     while true; do
-        if [[ -z $1 || $1 =~ ^[^-] ]]; then break; fi
+        if [[ -z $1 || $1 =~ ^[^-+] ]]; then break; fi
         case $1 in
+            +i)
+                caseOpt=""
+                ;;
             -B)
                 binOpt=""
                 ;;
@@ -36,8 +40,8 @@ fndg () {
     fi
     [[ -z $1 ]] && { echo "No target specified, cannot proceed."; return; }
     tgt=$1
-    echo find ${startIn} -type f -exec grep $binOpt $wordOpt -i -H "${tgt}" {} \;
-    find ${startIn} -type f -exec grep $binOpt $wordOpt -i -H "${tgt}" {} \; 2> /dev/null
+    echo find ${startIn} -type f -exec grep $binOpt $wordOpt $caseOpt -H "${tgt}" {} \;
+    find ${startIn} -type f -exec grep $binOpt $wordOpt $caseOpt -H "${tgt}" {} \; 2> /dev/null
 }
 
 # pww 20081008 - more convenient find, when just looking for files/folders

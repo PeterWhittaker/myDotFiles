@@ -1,8 +1,16 @@
-.bashGetMyFuncs
-.bashMyFuncs
-.bash_aliases
-.bash_profile
-.bashrc
-.bash_sessions_disable
-.inputrc
-.vimrc
+fileManifest=""
+fileManifest+=" .bashrc"
+fileManifest+=" .bash_profile"
+fileManifest+=" .bash_aliases"
+fileManifest+=" .bashGetMyFuncs"
+fileManifest+=" .bashMyFuncs"
+fileManifest+=" .inputrc"
+fileManifest+=" .vimrc"
+
+
+isMacOS && fileManifest+=" .bash_sessions_disable"
+
+# odd construct, but we don't want to fail being sourced
+# because we aren't on one of the platforms above
+true
+
