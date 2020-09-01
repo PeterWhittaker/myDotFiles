@@ -1,14 +1,19 @@
 fileManifest=""
-fileManifest+=" .bashrc"
-fileManifest+=" .bash_profile"
-fileManifest+=" .bash_aliases"
-fileManifest+=" .bashGetMyFuncs"
-fileManifest+=" .bashMyFuncs"
-fileManifest+=" .inputrc"
-fileManifest+=" .vimrc"
+
+addThis () {
+    fileManifest+=" $1"
+}
+
+addThis .bashrc
+addThis .bash_profile
+addThis .bash_aliases
+addThis .bashGetMyFuncs
+addThis .bashMyFuncs
+addThis .inputrc
+addThis .vimrc
 
 
-isMacOS && fileManifest+=" .bash_sessions_disable"
+isMacOS && addThis .bash_sessions_disable
 
 # odd construct, but we don't want to fail being sourced
 # because we aren't on one of the platforms above

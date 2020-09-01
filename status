@@ -23,7 +23,7 @@ for file in $fileManifest; do
     if [[ $rc -ne 0 ]]; then
         anyDiffs=yes
         diff --color=always -u ${myHome}/${file} ${myDir}/${file}
-        echo; echo "If + is wanted, 'y'; if - is wanted, 'swap'; otherwise, anything else."
+        echo; echo "If + is wanted, 'y'; if - is wanted, 'swap'; 'd' deletes '-'; otherwise, anything else."
         read -p "Replace $file in ~? " answer
         echo $answer
         case $answer in
@@ -32,6 +32,9 @@ for file in $fileManifest; do
                 ;;
             swap)
                 cp -p ${myHome}/${file} ${myDir}/${file} 
+                ;;
+            d)
+                rm ${myHome}/${file}
                 ;;
             *)
                 :
