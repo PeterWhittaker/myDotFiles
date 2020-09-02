@@ -11,6 +11,8 @@ set mouse=nvh
 
 highlight Comment ctermfg=DarkGrey guifg=DarkGrey cterm=underline
 
+packadd! matchit
+
 filetype plugin indent on
 autocmd FileType make setlocal noexpandtab shiftwidth=8 softtabstop=0
 autocmd FileType yaml setlocal sw=2 softtabstop=2 tabstop=2
