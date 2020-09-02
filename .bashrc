@@ -301,9 +301,14 @@ if ! shopt -oq posix; then
 fi
 
 function _setAndReloadHistory {
+    lastTenHist=$(history 10)
     builtin history -a
     builtin history -c
     builtin history -r
+}
+
+function listHist {
+    echo "$lastTenHist"
 }
 
 ##############################################
