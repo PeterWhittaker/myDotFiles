@@ -16,31 +16,45 @@ source "${theManifest}" || { echo "Cannot source '${theManifest}', exiting."; ex
 # everything should be good to go now; get defensive
 set -u
 
+replaceOrSwap () {
+    anyDiffs=yes
+    diff --color=always -u ${myHome}/${file} ${myDir}/${file}
+    echo; echo "If + is wanted, 'y'; if - is wanted, 'swap'; 'd' deletes '-'; otherwise, anything else."
+    read -p "Replace $file in ~? " answer
+    case $answer in
+        y*|Y*)
+            cp -p ${myDir}/${file} ${myHome}/${file}
+            ;;
+        swap)
+            cp -p ${myHome}/${file} ${myDir}/${file} 
+            ;;
+        d)
+            rm ${myHome}/${file}
+            ;;
+        *)
+            :
+            ;;
+    esac
+}
+
+addMissing () {
+    anyDiffs=yes
+    echo "The file '${myHome}/${file}' does not exist;"
+    read -p "createit from '${myDir}/${file}'? " answer
+    case $answer in
+        y*|Y*)
+            cp -p ${myDir}/${file} ${myHome}/${file}
+            ;;
+        *)
+            :
+            ;;
+    esac
+}
+
 anyDiffs=no
 for file in $fileManifest; do
-    diff -q ${myHome}/${file} ${myDir}/${file} 2> /dev/null
-    rc=$?
-    if [[ $rc -ne 0 ]]; then
-        anyDiffs=yes
-        diff --color=always -u ${myHome}/${file} ${myDir}/${file}
-        echo; echo "If + is wanted, 'y'; if - is wanted, 'swap'; 'd' deletes '-'; otherwise, anything else."
-        read -p "Replace $file in ~? " answer
-        echo $answer
-        case $answer in
-            y*|Y*)
-                cp -p ${myDir}/${file} ${myHome}/${file}
-                ;;
-            swap)
-                cp -p ${myHome}/${file} ${myDir}/${file} 
-                ;;
-            d)
-                rm ${myHome}/${file}
-                ;;
-            *)
-                :
-                ;;
-        esac
-    fi
+    [[ ! -f ${myHome}/${file} ]] && { addMissing; continue; }
+    diff -q ${myHome}/${file} ${myDir}/${file} 2> /dev/null || { replaceOrSwap; continue; }
 done
 
 [[ ${anyDiffs} = no ]] && echo "No diffs, no need to change anything."
