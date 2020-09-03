@@ -21,6 +21,9 @@ set cmdheight=2
 " make this the general option, see how it works; keep
 " the locals below, in case we remove or change this
 set foldmethod=indent
+set foldcolumn=5
+highlight clear foldcolumn
+highlight foldcolumn ctermbg=black guibg=black
 
 highlight Comment ctermfg=DarkGrey guifg=DarkGrey cterm=underline
 
