@@ -27,6 +27,9 @@ highlight foldcolumn ctermbg=black guibg=black
 
 highlight Comment ctermfg=DarkGrey guifg=DarkGrey cterm=underline
 
+map [5~ :bp
+map [6~ :bn
+
 " unclear whether this should be packadd or runtime, but this works....
 packadd! matchit
 " not sure if we want this, try for a file, learn....
