@@ -18,6 +18,15 @@ set mouse=nvh
 " experiment with this a while....
 set cmdheight=2
 
+" display a count of matched patterns - oddly, the simplest way to do
+" this that works across all my platforms (so far) is to disable them S
+" message - which enables display the count - by turning off turning it
+" off. Note that the commented-out alternative on the line following
+" works everywhere but MacOS (right now; it has vim81; most other boxes
+" appear to have vim82)
+set shortmess-=S
+"set shortmess=
+
 " make this the general option, see how it works; keep
 " the locals below, in case we remove or change this
 set foldmethod=indent
