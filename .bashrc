@@ -291,7 +291,7 @@ if [ -f ~/.bash_aliases ]; then
 fi
 
 # very specific case
-[[ -f ~/.getMyGitsrc ]] && . ~/.getMyGitsrc
+[[ -f ~/myBinFiles/getMyGitsrc ]] && . ~/myBinFiles/getMyGitsrc
 
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
