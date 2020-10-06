@@ -1,0 +1,6 @@
+# Things I want on all my gits; can often but not always be global
+[core]
+	editor = vim
+	pager = less -j22 -R -F -S -X
+[alias]
+	lg = log --color --graph --pretty=format:'%Cred%h%Creset %>(32)%cD -%C(yellow)%d%Creset %<(35,trunc)%s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
