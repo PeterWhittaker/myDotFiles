@@ -39,6 +39,9 @@ highlight Comment ctermfg=DarkGrey guifg=DarkGrey cterm=underline
 map [5~ :bp
 map [6~ :bn
 
+" add Ss to search for and highlight UNIX/Linux paths
+command! -nargs=1 Ss let @/ = <q-args>|set hlsearch
+
 " unclear whether this should be packadd or runtime, but this works....
 packadd! matchit
 " not sure if we want this, try for a file, learn....
