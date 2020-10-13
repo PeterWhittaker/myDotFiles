@@ -290,7 +290,7 @@ if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
 
-# very specific case
+# very specific case - defines jmps function
 [[ -f ~/myBinFiles/getMyGitsrc ]] && . ~/myBinFiles/getMyGitsrc
 
 # enable programmable completion features (you don't need to enable
