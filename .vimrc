@@ -42,8 +42,8 @@ map [6~ :bn
 " add Ss to search for and highlight UNIX/Linux paths
 command! -nargs=1 Ss let @/ = <q-args>|set hlsearch
 
-" unclear whether this should be packadd or runtime, but this works....
-packadd! matchit
+" this was 'packadd', but it fails with vim on RHEL 7.[78]; use runtime
+runtime! matchit
 " not sure if we want this, try for a file, learn....
 runtime! macros/editexisting.vim
 

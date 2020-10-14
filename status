@@ -16,9 +16,16 @@ source "${theManifest}" || { echo "Cannot source '${theManifest}', exiting."; ex
 # everything should be good to go now; get defensive
 set -u
 
+diffColorOption () {
+    if diff --color=always . . 2> /dev/null; then
+        echo "--color=always"
+    else
+        echo ""
+    fi
+}
 replaceOrSwap () {
     anyDiffs=yes
-    diff --color=always -u ${myHome}/${file} ${myDir}/${file}
+    diff $(diffColorOption) -u ${myHome}/${file} ${myDir}/${file}
     echo; echo "If + is wanted, 'y'; if - is wanted, 'swap'; 'd' deletes '-'; otherwise, anything else."
     read -p "Replace $file in ~? " answer
     case $answer in
