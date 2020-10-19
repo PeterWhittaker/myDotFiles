@@ -1,68 +1,18 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-myHome=~
+set -u
+actuallyStatAndExit () {
+    $1/$actualStatter
+    exit $?
+}
+
+actualStatter=statmygits
+[[ -x ~/bin/$actualStatter ]] && actuallyStatAndExit ~/bin
+
 myDir=$(dirname $0)
 cd $myDir || { echo "Cannot get to my ${myDir}, exiting."; exit 1; }
-myDir=$(pwd)
-#double check
-cd $myDir || { echo "Cannot get to my ${myDir}, exiting."; exit 3; }
+[[ -x ./$actualStatter ]] && actuallyStatAndExit .
 
-theManifest=${myDir}/manifest
-[[ ! -s ${theManifest} ]] && { echo "No manifest, very odd, exiting."; exit 5; }
-
-# this sets fileManifest
-source "${theManifest}" || { echo "Cannot source '${theManifest}', exiting."; exit 7; }
-
-# everything should be good to go now; get defensive
-set -u
-
-diffColorOption () {
-    if diff --color=always . . 2> /dev/null; then
-        echo "--color=always"
-    else
-        echo ""
-    fi
-}
-replaceOrSwap () {
-    anyDiffs=yes
-    diff $(diffColorOption) -u ${myHome}/${file} ${myDir}/${file}
-    echo; echo "If + is wanted, 'y'; if - is wanted, 'swap'; 'd' deletes '-'; otherwise, anything else."
-    read -p "Replace $file in ~? " answer
-    case $answer in
-        y*|Y*)
-            cp -p ${myDir}/${file} ${myHome}/${file}
-            ;;
-        swap)
-            cp -p ${myHome}/${file} ${myDir}/${file} 
-            ;;
-        d)
-            rm ${myHome}/${file}
-            ;;
-        *)
-            :
-            ;;
-    esac
-}
-
-addMissing () {
-    anyDiffs=yes
-    echo "The file '${myHome}/${file}' does not exist;"
-    read -p "createit from '${myDir}/${file}'? " answer
-    case $answer in
-        y*|Y*)
-            cp -p ${myDir}/${file} ${myHome}/${file}
-            ;;
-        *)
-            :
-            ;;
-    esac
-}
-
-anyDiffs=no
-for file in $fileManifest; do
-    [[ ! -f ${myHome}/${file} ]] && { addMissing; continue; }
-    diff -q ${myHome}/${file} ${myDir}/${file} 2> /dev/null || { replaceOrSwap; continue; }
-done
-
-[[ ${anyDiffs} = no ]] && echo "No diffs, no need to change anything."
+echo "Very odd, we shouldn't have gotten here."
+exit 1
 
