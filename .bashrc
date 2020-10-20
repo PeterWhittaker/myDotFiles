@@ -257,8 +257,28 @@ xterm*|rxvt*)
     ;;
 esac
 
+whatBranch1 () {
+    branch=$(git branch 2> /dev/null)
+    if [[ $? -eq 0 ]]; then
+        onBranch="On branch '$(echo $branch|cut -d' ' -f2)'\n"
+        #onBranch+='\n'
+    else
+        onBranch=""
+    fi
+    #export onBranch
+}
+whatBranch () {
+    branch=$(git branch 2> /dev/null)
+    if [[ $? -eq 0 ]]; then
+        onBranch=$(echo "$branch" | grep -e '*'|cut -d' ' -f2)
+        #echo -e "\033[0;31mOn branch '$(echo $branch|cut -d' ' -f2)'\033[0m \n"
+        echo -e "\033[0;31mOn branch '$onBranch'\033[0m \n"
+    else
+        echo ""
+    fi
+}
 # for the moment, until we figure this out properly, hard set it here, seems to work everywhere
-PS1='\n\[\e]0;\u@\h: \w\a\]${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\n\! \$ '
+PS1='\n\[\e]0;\u@\h: \w\a\]${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\n$(whatBranch)\! \$ '
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
