@@ -52,4 +52,5 @@ autocmd FileType yaml setlocal sw=2 softtabstop=2 tabstop=2 foldmethod=indent
 autocmd FileType python setlocal foldmethod=indent 
 autocmd FileType c setlocal foldmethod=syntax
 
+autocmd StdinReadPost * set foldmethod=manual
 
