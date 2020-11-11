@@ -257,20 +257,9 @@ xterm*|rxvt*)
     ;;
 esac
 
-whatBranch1 () {
-    branch=$(git branch 2> /dev/null)
-    if [[ $? -eq 0 ]]; then
-        onBranch="On branch '$(echo $branch|cut -d' ' -f2)'\n"
-        #onBranch+='\n'
-    else
-        onBranch=""
-    fi
-    #export onBranch
-}
 whatBranch () {
-    branch=$(git branch 2> /dev/null)
+    onBranch=$(git rev-parse --abbrev-ref HEAD 2> /dev/null)
     if [[ $? -eq 0 ]]; then
-        onBranch=$(echo "$branch" | grep -e '*'|cut -d' ' -f2)
         echo ""
         echo -e "\033[0;31mOn branch '$onBranch'\033[0m"
     else
