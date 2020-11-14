@@ -47,10 +47,21 @@ runtime! matchit
 " not sure if we want this, try for a file, learn....
 runtime! macros/editexisting.vim
 
+" remove all autocmds, in case .vimrc is loaded twice, e.g., buffer jumping
+" except that this broke my syntax highlighting when in modifiable mode
+"autocmd!
+" now define our autocmds
 autocmd FileType make setlocal noexpandtab shiftwidth=8 softtabstop=0 foldmethod=indent
 autocmd FileType yaml setlocal sw=2 softtabstop=2 tabstop=2 foldmethod=indent
 autocmd FileType python setlocal foldmethod=indent 
 autocmd FileType c setlocal foldmethod=syntax
 
-autocmd StdinReadPost * set foldmethod=manual
-
+" Disable folds in readonly mode
+" this works really well
+autocmd VimEnter * if !&modifiable | set nofoldenable | endif
+" this is how I used to do this, but is use-case specific
+"autocmd StdinReadPost * set foldmethod=manual
+" another use-case specific experiment
+" autocmd StdinReadPost * set nofoldenable
+" hmm, I am tempted by this one too
+"set foldmethod=manual

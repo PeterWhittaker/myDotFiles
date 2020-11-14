@@ -261,7 +261,9 @@ whatBranch () {
     onBranch=$(git rev-parse --abbrev-ref HEAD 2> /dev/null)
     if [[ $? -eq 0 ]]; then
         echo ""
-        echo -e "\033[0;31mOn branch '$onBranch'\033[0m"
+        status="($(git status --porcelain -z))"
+        [[ $status != "()" ]] && statMsg="$status" || statMsg=""
+        echo -e "\033[0;31mOn branch '$onBranch'\033[0m${statMsg}"
     else
         echo ""
     fi
