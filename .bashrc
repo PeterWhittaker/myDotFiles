@@ -261,8 +261,10 @@ whatBranch () {
     onBranch=$(git rev-parse --abbrev-ref HEAD 2> /dev/null)
     if [[ $? -eq 0 ]]; then
         echo ""
-        status="($(git status --porcelain -z))"
-        [[ $status != "()" ]] && statMsg="$status" || statMsg=""
+        status=""
+        [[ $(git rev-parse --is-inside-git-dir) == "false" ]] && status="$(git status -s)" || onBranch+=' NOT IN WORK TREE!!!'
+        # easy way to fix presence of LF - porcelain uses NUL, which is worse
+        [[ ! -z $status ]] && statMsg="($(echo $status))"
         echo -e "\033[0;31mOn branch '$onBranch'\033[0m${statMsg}"
     else
         echo ""
