@@ -177,6 +177,11 @@ if isMacOS; then
     checkFor CPPFLAGS "/usr/local/opt/openssl/include"
     checkFor PKG_CONFIG_PATH "/usr/local/opt/openssl/lib/pkgconfig"
 
+    # JDK, primarily for ONGDB
+    checkFor PATH "/usr/local/opt/openjdk/bin"
+    checkFor CPPFLAGS "/usr/local/opt/openjdk/include"
+    export JAVA_CMD=/usr/local/opt/openjdk/bin/java
+
 fi
 
 # always prepend my bin, if it exists and is not already there
