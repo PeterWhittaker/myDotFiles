@@ -178,9 +178,14 @@ if isMacOS; then
     checkFor PKG_CONFIG_PATH "/usr/local/opt/openssl/lib/pkgconfig"
 
     # JDK, primarily for ONGDB
-    checkFor PATH "/usr/local/opt/openjdk/bin"
-    checkFor CPPFLAGS "/usr/local/opt/openjdk/include"
-    export JAVA_CMD=/usr/local/opt/openjdk/bin/java
+    checkFor PATH "/usr/local/opt/openjdk@8/bin"
+    checkFor CPPFLAGS "/usr/local/opt/openjdk@8/include"
+    export JAVA_CMD=/usr/local/opt/openjdk@8/bin/java
+
+    # Poppler/Qt, for pdf-fill-form
+    checkFor LDFLAGS "/usr/local/opt/qt5/lib"
+    checkFor CPPFLAGS "/usr/local/opt/qt5/include"
+    checkFor PKG_CONFIG_PATH "/usr/local/opt/qt5/lib/pkgconfig"
 
 fi
 

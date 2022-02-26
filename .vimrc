@@ -15,6 +15,28 @@ set nostartofline
 " use ':' to enable selecting in visual mode
 set mouse=nvh
 
+" always show a status line
+set laststatus=2
+
+" wrap to the next/previous line when navigating
+set whichwrap=h,l,<,>
+
+" show tabs and trailing spaces
+set listchars=tab:>-,trail:·
+set list
+
+" comment formatting
+" c - format comments
+" r - when editing a comment, automatically insert the comment leader after <enter>
+" o - [oO] on comment line creates new comment line below/above
+" q - format comments with gq
+" j - automatically remove comment marker when joining comment lines
+set fo=croqj
+" not sure if I like autoformatting 
+"set fo+=a
+
+" show command completions?
+set wildmenu
 " experiment with this a while....
 set cmdheight=2
 
@@ -25,7 +47,14 @@ set cmdheight=2
 " works everywhere but MacOS (right now; it has vim81; most other boxes
 " appear to have vim82)
 set shortmess-=S
-"set shortmess=
+
+" highlight search results
+set hlsearch
+" even as we type
+set incsearch
+
+" centre search results
+"set scrolloff=999
 
 " make this the general option, see how it works; keep
 " the locals below, in case we remove or change this
