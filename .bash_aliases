@@ -116,3 +116,28 @@ fi
 # 2020-03-31 - easier SSH key management, especially for git
 # requires that the key file be specified
 alias addkeys='eval "$(ssh-agent -s)"; ssh-add'
+
+# 2022-09-26 && 2022-10-18 - for Verity development under AlmaLinux
+go () {
+    [[ -z $1 ]] && tgt='~' || tgt=${1%%/}
+    done=""
+    declare index=0
+    for dir in $(dirs); do
+        [[ $tgt == $dir ]] && { pushd +${index}; done="y"; break; }
+        (( index++ ))
+    done
+    [[ -z $done ]] && pushd $tgt
+}
+
+alias gbe='go /var/sphyrna/verity/backend'
+alias gb=gbe
+alias gfe='go /var/sphyrna/verity/frontend'
+alias gf=gfe
+alias gv='go /var/sphyrna/verity/'
+alias gp='go /var/sphyrna/processes'
+alias gbld='go /var/sphyrna/build'
+alias gdb='go /var/sphyrna/ongdb-service'
+alias gbootstrap='go /var/sphyrna/vm-bootstrap'
+alias tmv='tmux new -A -s Verity'
+alias tmd='tmux new -A -s Development'
+
