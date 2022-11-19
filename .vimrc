@@ -1,7 +1,32 @@
-" set compatibility and file checks ASAP
+" set compatibility and file checks ASAP - not really required, the existence
+" of a vimrc sets nocp
 set nocompatible
 filetype plugin indent on
 syntax on
+
+" may be a reasonable number?
+set scrolloff=3
+" allow navigating away from modified buffers without saving
+set hidden
+" mark the 85th column
+set colorcolumn=85
+" show relative line numbers - use C-g to get real ones
+set relativenumber
+" not sure about this one
+set cursorline
+" and make the colour less obtrusive
+highlight LineNr ctermfg=grey
+" keep undo's in a file
+set undofile
+" quickly clear highlighted searches
+:nnoremap <Leader>\ :noh<CR>
+" put the most recent put into visual mode
+" imperfect, but not bad
+nnoremap <leader>p V`]
+" quick vertical split-and-focus
+nnoremap <leader>w <C-w>v<C-w>l
+" quickly load and goto my vimrc
+nnoremap <leader>v <C-w><C-v><C-l>:e $MYVIMRC<cr>
 
 set tabstop=8 softtabstop=0 expandtab shiftwidth=4 smarttab
 set ignorecase
