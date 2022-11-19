@@ -5,6 +5,7 @@ syntax on
 
 set tabstop=8 softtabstop=0 expandtab shiftwidth=4 smarttab
 set ignorecase
+set smartcase
 set autoindent
 set ruler
 set showcmd
@@ -69,9 +70,7 @@ map [6~ :bn
 command! -nargs=1 Ss let @/ = <q-args>|set hlsearch
 
 " this was 'packadd', but it fails with vim on RHEL 7.[78]; use runtime
-runtime! matchit
-" not sure if we want this, try for a file, learn....
-runtime! macros/editexisting.vim
+runtime! macros/matchit.com
 
 " remove all autocmds, in case .vimrc is loaded twice, e.g., buffer jumping
 " except that this broke my syntax highlighting when in modifiable mode
