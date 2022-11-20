@@ -12,21 +12,31 @@ set hidden
 set colorcolumn=85
 " show relative line numbers - use C-g to get real ones
 set relativenumber
+" but toggle it if we don't want it
+nnoremap <Leader>r :set invrelativenumber<CR>
 " not sure about this one
 set cursorline
+" so toggle it if we don't want it
+nnoremap <Leader>c :set invcursorline<CR>
 " and make the colour less obtrusive
 highlight LineNr ctermfg=grey
 " keep undo's in a file
 set undofile
 " quickly clear highlighted searches
-:nnoremap <Leader>\ :noh<CR>
+nnoremap <Leader>\ :noh<CR>
 " put the most recent put into visual mode
 " imperfect, but not bad
-nnoremap <leader>p V`]
+nnoremap <Leader>p V`]
 " quick vertical split-and-focus
-nnoremap <leader>w <C-w>v<C-w>l
+nnoremap <Leader>w <C-w>v<C-w>l
 " quickly load and goto my vimrc
-nnoremap <leader>v <C-w><C-v><C-l>:e $MYVIMRC<cr>
+nnoremap <Leader>v <C-w><C-v><C-l>:e $MYVIMRC<cr>
+" load the vimrc
+nnoremap <Leader>s :source $MYVIMRC<cr>
+
+" swap default highlights for active and inactive panes
+highlight StatusLineNC   term=bold,reverse cterm=bold,reverse gui=bold,reverse
+highlight StatusLine   term=reverse cterm=reverse gui=reverse
 
 set tabstop=8 softtabstop=0 expandtab shiftwidth=4 smarttab
 set ignorecase
@@ -86,7 +96,8 @@ set foldcolumn=5
 highlight clear foldcolumn
 highlight foldcolumn ctermbg=black guibg=black
 
-highlight Comment ctermfg=DarkGrey guifg=DarkGrey cterm=underline
+" this was messing with comment colours when resourcing vimrc
+"highlight Comment ctermfg=DarkGrey guifg=DarkGrey cterm=underline
 
 map [5~ :bp
 map [6~ :bn
