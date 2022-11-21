@@ -4,20 +4,33 @@ set nocompatible
 filetype plugin indent on
 syntax on
 
+function! ToggleWaldo()
+    if &colorcolumn
+        setlocal norelativenumber
+        setlocal nocursorline
+        setlocal colorcolumn=
+    else
+        setlocal colorcolumn=85
+        setlocal relativenumber
+        setlocal cursorline
+    endif
+endfunction
+
 " may be a reasonable number?
 set scrolloff=3
 " allow navigating away from modified buffers without saving
 set hidden
 " mark the 85th column
-set colorcolumn=85
+"set colorcolumn=85
+highlight ColorColumn ctermbg=LightGrey
 " show relative line numbers - use C-g to get real ones
-set relativenumber
+"set relativenumber
 " but toggle it if we don't want it
 nnoremap <Leader>r :set invrelativenumber<CR>
 " not sure about this one
-set cursorline
+"set cursorline
 " so toggle it if we don't want it
-nnoremap <Leader>c :set invcursorline<CR>
+nnoremap <Leader>c :call ToggleWaldo()<CR>
 " and make the colour less obtrusive
 highlight LineNr ctermfg=grey
 " keep undo's in a file
@@ -28,7 +41,9 @@ nnoremap <Leader>\ :noh<CR>
 " imperfect, but not bad
 nnoremap <Leader>p V`]
 " quick vertical split-and-focus
-nnoremap <Leader>w <C-w>v<C-w>l
+nnoremap <Leader>\| <C-w>v<C-w>l
+" quick horizontal split-and-focus
+nnoremap <Leader> - <C-w>h<C-w>l
 " quickly load and goto my vimrc
 nnoremap <Leader>v <C-w><C-v><C-l>:e $MYVIMRC<cr>
 " load the vimrc
