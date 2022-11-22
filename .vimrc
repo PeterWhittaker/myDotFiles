@@ -48,7 +48,7 @@ nnoremap <Leader> - <C-w>h<C-w>l
 nnoremap <Leader>v <C-w><C-v><C-l>:e $MYVIMRC<cr>
 " load the vimrc
 nnoremap <Leader>s :source $MYVIMRC<cr>
-thi sis 
+
 " swap default highlights for active and inactive panes
 highlight StatusLineNC   term=bold,reverse cterm=bold,reverse gui=bold,reverse
 highlight StatusLine   term=reverse cterm=reverse gui=reverse
