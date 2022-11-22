@@ -52,6 +52,8 @@ nnoremap <Leader>s :source $MYVIMRC<cr>
 " swap default highlights for active and inactive panes
 highlight StatusLineNC   term=bold,reverse cterm=bold,reverse gui=bold,reverse
 highlight StatusLine   term=reverse cterm=reverse gui=reverse
+" give visual mode a simple reverse look
+highlight Visual ctermbg=NONE ctermfg=NONE
 
 set tabstop=8 softtabstop=0 expandtab shiftwidth=4 smarttab
 set ignorecase
