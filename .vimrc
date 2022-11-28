@@ -1,6 +1,8 @@
 " set compatibility and file checks ASAP - not really required, the existence
 " of a vimrc sets nocp
 set nocompatible
+" these may need to be moved to after ':highlight' commands to ensure proper
+" colouring - cf vim usr_06 or so.
 filetype plugin indent on
 syntax on
 
@@ -43,7 +45,7 @@ nnoremap <Leader>p V`]
 " quick vertical split-and-focus
 nnoremap <Leader>\| <C-w>v<C-w>l
 " quick horizontal split-and-focus
-nnoremap <Leader> - <C-w>h<C-w>l
+nnoremap <Leader>- :split<CR><ctrl-w>l
 " quickly load and goto my vimrc
 nnoremap <Leader>v <C-w><C-v><C-l>:e $MYVIMRC<cr>
 " load the vimrc
@@ -124,6 +126,8 @@ command! -nargs=1 Ss let @/ = <q-args>|set hlsearch
 
 " this was 'packadd', but it fails with vim on RHEL 7.[78]; use runtime
 runtime! macros/matchit.com
+" load the Man plugin
+runtime! ftplugin/man.vim
 
 " remove all autocmds, in case .vimrc is loaded twice, e.g., buffer jumping
 " except that this broke my syntax highlighting when in modifiable mode
