@@ -50,6 +50,8 @@ nnoremap <Leader>- :split<CR><ctrl-w>l
 nnoremap <Leader>v <C-w><C-v><C-l>:e $MYVIMRC<cr>
 " load the vimrc
 nnoremap <Leader>s :source $MYVIMRC<cr>
+" browse old files
+nnoremap <Leader>o :browse oldfiles<CR>
 
 " swap default highlights for active and inactive panes
 highlight StatusLineNC   term=bold,reverse cterm=bold,reverse gui=bold,reverse
@@ -90,8 +92,10 @@ set fo=croqj
 " not sure if I like autoformatting 
 "set fo+=a
 
-" show command completions?
+" show command completions
 set wildmenu
+" ignore case when matching file names
+set wildignorecase
 " experiment with this a while....
 set cmdheight=2
 
