@@ -1,6 +1,37 @@
 # Things I want on all my gits; can often but not always be global
+[user]
+    name = Peter Whittaker
+    email = PeterWhittaker@SphyrnaSecurity.com
+
+[github]
+    user = PeterWhittaker
+
+[credential "https://gitlab.sphyrna.ca"]
+        username = pwhittaker
+        helper = cache --timeout=14400
+
+[sendemail]
+    smtpEncryption = tls
+    smtpServer = smtp.gmail.com
+    smtpUser = pww@edgekeep.com
+    smtpServerPort = 587
+
 [core]
-	editor = vim
-	pager = less -j22 -R -F -S -X
+        editor = vim
+        pager = less -j22 -R -F -S -X
+        excludesfile = /home/pww/.gitignore_global
+
 [alias]
-	lg = log --color --graph --pretty=format:'%Cred%h%Creset %>(32)%cD -%C(yellow)%d%Creset %<(35,trunc)%s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
+        lg = log --color --graph --pretty=format:'%Cred%h%Creset %>(32)%cD -%C(yellow)%d%Creset %<(35,trunc)%s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
+        lgh = log -n 5 --color --graph --pretty=format:'%Cred%h%Creset %>(32)%cD -%C(yellow)%d%Creset %<(35,trunc)%s %Cgreen(%cr) %C(bold blue)<%an>%Creset' 
+        incmt = show --name-only
+        sps = !git stash && git pull && git stash pop
+
+[fetch]
+        prune = true
+
+[pull]
+        ff = true
+
+[init]
+        defaultBranch = main

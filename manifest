@@ -12,7 +12,7 @@ addThis .bashMyFuncs
 addThis .inputrc
 addThis .vimrc
 addThis .tmux.conf
-
+addThis .gitignore_global
 
 isMacOS && addThis .bash_sessions_disable
 
