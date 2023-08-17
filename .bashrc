@@ -306,8 +306,8 @@ interpretRC () {
         137)
             echo -e "${_red}Last command KILLED!${_normal}"
             ;;
-        148)
-            echo -e "${_purple}Last command suspended${_normal}"
+        146|148)
+            [[ ( isMacos && $_RC -eq 146 ) || ( isLinux && $_RC -eq 148 ) ]] && echo -e "${_purple}Last command suspended${_normal}"
             ;;
         *)
             echo -e "${_red}Last command exited with: $_RC${_normal}"
