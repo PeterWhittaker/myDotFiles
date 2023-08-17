@@ -46,10 +46,19 @@ fndg () {
 
 # pww 20081008 - more convenient find, when just looking for files/folders
 function fndi () {
-
-	tgt="${1}"; shift
-	echo find . -iname \*"${tgt}"\* "${@}"
-	find . -iname \*"${tgt}"\* "${@}" 2> /dev/null
+    if [[ -z $2 ]]; then
+        startIn=.
+    else
+        startIn=''
+        while [[ ! -z $2 ]]; do
+            startIn+="$1 "
+            shift
+        done
+    fi
+    [[ -z $1 ]] && { echo "No target specified, cannot proceed."; return; }
+    tgt="${1}"; shift;
+    echo find ${startIn} -iname \*"${tgt}"\* "${@}"
+    find ${startIn} -iname \*"${tgt}"\* "${@}" 2> /dev/null
     [[ -z $tgt ]] && { echo; echo "No target was specified, did the results surprise?"; }
 }
 
