@@ -219,11 +219,6 @@ export LESS="-j22 -R -F -s -X -z-3 -e"
 # make less more friendly for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
-# set variable identifying the chroot you work in (used in the prompt below)
-if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
-    debian_chroot=$(cat /etc/debian_chroot)
-fi
-
 # set a fancy prompt (non-color, unless we know we "want" color)
 case "$TERM" in
     xterm-color|*-256color) color_prompt=yes;;
@@ -245,29 +240,45 @@ if [ -n "$force_color_prompt" ]; then
     fi
 fi
 
+# This could be much better. E.g., the color definitions, et al,
+# could be moved here, then unset if not a color prompt, etc.,
+# with the logic adjusted to account for cygwin weirdness.
+#
+# All of the color codes would be replaced with the color definitions....
+#
+# For later....
 if [ "$color_prompt" = yes ]; then
     if [ isCygwin ]; then
         # need to understand the codes, figure why the default prompt
         # doesn't work on Cygwin - color disappears....
+        #
+        # it looks like it is trying to set the title bar, a la xterm
+        # hmmm....
         PS1='\[\e]0;\w\a\]\n\[\e[32m\]\u@\h \[\e[33m\]\w\[\e[0m\]\n\$ '
     else
         # add some new lines to make it prettier
-        PS1='\n${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\n\$ '
+        PS1='\n\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\n\$ '
     fi
 else
     # add some new lines to make it prettier
-    PS1='\n${debian_chroot:+($debian_chroot)}\u@\h:\w\n\$ '
+    PS1='\n\u@\h:\w\n\$ '
 fi
 unset color_prompt force_color_prompt
 
-# If this is an xterm set the title to user@host:dir
-case "$TERM" in
-xterm*|rxvt*)
-    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
-    ;;
-*)
-    ;;
-esac
+# first cut, before I figured on the variable-Vs-function separation
+#_start='\['
+#_end='\]'
+#
+# The function versions exist to be called directly in PS1;
+# the variableversions exist to be used directly, e.g., in
+# functions called by PS1. Using the variable versions in
+# PS1 causes them to be displayed verbatim, not interpreted.
+_xtitle='\e]0'     ;    _xtitle () { echo -e "${_xtitle}" ; }
+_red='\e[0;31m'    ;    _red    () { echo -e "${_red}"    ; }
+_green='\e[0;32m'  ;    _green  () { echo -e "${_green}"  ; }
+_blue='\e[0;34m'   ;    _blue   () { echo -e "${_blue}"   ; }
+_purple='\e[0;35m' ;    _purple () { echo -e "${_purple}" ; }
+_normal='\e[0m'    ;    _normal () { echo -e "${_normal}" ; }
 
 whatBranch () {
     onBranch=$(git rev-parse --abbrev-ref HEAD 2> /dev/null)
@@ -277,14 +288,63 @@ whatBranch () {
         [[ $(git rev-parse --is-inside-git-dir) == "false" ]] && status="$(git status -s)" || onBranch+=' NOT IN WORK TREE!!!'
         # easy way to fix presence of LF - porcelain uses NUL, which is worse
         [[ ! -z $status ]] && statMsg="($(echo $status))"
-        echo -e "\033[0;31mOn branch '$onBranch'\033[0m${statMsg}"
+        echo -e "${_red}On branch '$onBranch'${_normal}${statMsg}"
     else
         echo ""
     fi
 }
 
-# for the moment, until we figure this out properly, hard set it here, seems to work everywhere
-PS1='\n$(RC=$?; [[ $RC -eq 0 ]] && echo -e "\033[0;32mLast command good\033[0m" || echo -e "\033[0;31mLast command exited with: $RC\033[0m\n")\n\[\e]0;\u@\h: \w\a\]${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]$(whatBranch)\n$([[ \j -gt 0 ]] && { jobs; echo "\n"; })\! \$ '
+interpretRC () {
+    local _RC=$1
+    case $_RC in
+        0)
+            echo -e "${_green}Last command good${_normal}"
+            ;;
+        130)
+            echo -e "${_red}Last command interrupted (that's good, right?)${_normal}"
+            ;;
+        137)
+            echo -e "${_red}Last command KILLED!${_normal}"
+            ;;
+        148)
+            echo -e "${_purple}Last command suspended${_normal}"
+            ;;
+        *)
+            echo -e "${_red}Last command exited with: $_RC${_normal}"
+            ;;
+    esac
+}
+
+anyJobs () {
+    [[ $(jobs) ]] && { echo "\n"; jobs; } || echo ""
+}
+
+setXtermTitle () {
+    case "$TERM" in
+        xterm*|rxvt*)
+            # I should be able to use _xtitle and _bell,
+            # sort of a la testPr, below, but I need an
+            # Xterm to test this.... The original code
+            # to do this is embedded herein....
+#PS1='\n$(RC=$?; interpretRC $RC)\n\[\e]0;\u@\h: \w\a\]\[\e[01;32m\]\u@\h\[\e[00m\]:\[\e[01;34m\]\w\[\e[00m\]$(whatBranch)\n$([[ \j -gt 0 ]] && { jobs; echo "\n"; })\! \$ '
+            echo "\[\e]0;\u@\h: \w\a\]"
+            ;;
+        *)
+            echo ""
+            ;;
+    esac
+}
+
+testPr () {
+    echo "\u@\h: \w"
+}
+
+# Cf comments above re doing this better by moving up the definitions of the color codes,
+# then undefining them if there is no color support. Would need to figure the Cygwin nonsense.
+PS1='\n$(RC=$?; interpretRC $RC)\n$(_green)\u@\h$(_normal):$(_blue)\w$(_normal)$(whatBranch)$(anyJobs)\n\! \$ '
+# there may be a better way of doing this, will experiment on an Xterm
+PS1="$(setXtermTitle)${PS1}"
+
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
