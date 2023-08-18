@@ -219,52 +219,8 @@ export LESS="-j22 -R -F -s -X -z-3 -e"
 # make less more friendly for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
-# set a fancy prompt (non-color, unless we know we "want" color)
-case "$TERM" in
-    xterm-color|*-256color) color_prompt=yes;;
-esac
-
-# uncomment for a colored prompt, if the terminal has the capability; turned
-# off by default to not distract the user: the focus in a terminal window
-# should be on the output of commands, not on the prompt
-#force_color_prompt=yes
-
-if [ -n "$force_color_prompt" ]; then
-    if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
-	# We have color support; assume it's compliant with Ecma-48
-	# (ISO/IEC-6429). (Lack of such support is extremely rare, and such
-	# a case would tend to support setf rather than setaf.)
-	color_prompt=yes
-    else
-	color_prompt=
-    fi
-fi
-
-# This could be much better. E.g., the color definitions, et al,
-# could be moved here, then unset if not a color prompt, etc.,
-# with the logic adjusted to account for cygwin weirdness.
+# CONVENIENCE FUNCTIONS AND VARIABLES FOR SETTING PS1
 #
-# All of the color codes would be replaced with the color definitions....
-#
-# For later....
-if [ "$color_prompt" = yes ]; then
-    if [ isCygwin ]; then
-        # need to understand the codes, figure why the default prompt
-        # doesn't work on Cygwin - color disappears....
-        #
-        # it looks like it is trying to set the title bar, a la xterm
-        # hmmm....
-        PS1='\[\e]0;\w\a\]\n\[\e[32m\]\u@\h \[\e[33m\]\w\[\e[0m\]\n\$ '
-    else
-        # add some new lines to make it prettier
-        PS1='\n\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\n\$ '
-    fi
-else
-    # add some new lines to make it prettier
-    PS1='\n\u@\h:\w\n\$ '
-fi
-unset color_prompt force_color_prompt
-
 # first cut, before I figured on the variable-Vs-function separation
 #_start='\['
 #_end='\]'
@@ -273,12 +229,28 @@ unset color_prompt force_color_prompt
 # the variableversions exist to be used directly, e.g., in
 # functions called by PS1. Using the variable versions in
 # PS1 causes them to be displayed verbatim, not interpreted.
-_xtitle='\e]0'     ;    _xtitle () { echo -e "${_xtitle}" ; }
-_red='\e[0;31m'    ;    _red    () { echo -e "${_red}"    ; }
-_green='\e[0;32m'  ;    _green  () { echo -e "${_green}"  ; }
-_blue='\e[0;34m'   ;    _blue   () { echo -e "${_blue}"   ; }
-_purple='\e[0;35m' ;    _purple () { echo -e "${_purple}" ; }
-_normal='\e[0m'    ;    _normal () { echo -e "${_normal}" ; }
+_xtitle='\e]0;'    ;    _xtitle () { echo -e "${_xtitle}" ; }
+
+# decide whether or not to use colour, based
+# on terminal type or platform capabilities
+if [[ $TERM =~ ^xterm-color || $TERM =~ -256color$ ]] ||
+ ( [[ -x /usr/bin/tput ]] && tput setaf 1 >&/dev/null ); then
+
+    _red='\e[0;31m'    ;    _red    () { echo -e "${_red}"    ; }
+    _green='\e[0;32m'  ;    _green  () { echo -e "${_green}"  ; }
+    _blue='\e[0;34m'   ;    _blue   () { echo -e "${_blue}"   ; }
+    _purple='\e[0;35m' ;    _purple () { echo -e "${_purple}" ; }
+    _normal='\e[0m'    ;    _normal () { echo -e "${_normal}" ; }
+
+else
+
+    _red=''             ;    _red    () { echo "" ; }
+    _green=''           ;    _green  () { echo "" ; }
+    _blue=''            ;    _blue   () { echo "" ; }
+    _purple=''          ;    _purple () { echo "" ; }
+    _normal=''          ;    _normal () { echo "" ; }
+
+fi
 
 whatBranch () {
     onBranch=$(git rev-parse --abbrev-ref HEAD 2> /dev/null)
@@ -319,31 +291,19 @@ anyJobs () {
     [[ $(jobs) ]] && { echo "\n"; jobs; } || echo ""
 }
 
-setXtermTitle () {
-    case "$TERM" in
-        xterm*|rxvt*)
-            # I should be able to use _xtitle and _bell,
-            # sort of a la testPr, below, but I need an
-            # Xterm to test this.... The original code
-            # to do this is embedded herein....
-#PS1='\n$(RC=$?; interpretRC $RC)\n\[\e]0;\u@\h: \w\a\]\[\e[01;32m\]\u@\h\[\e[00m\]:\[\e[01;34m\]\w\[\e[00m\]$(whatBranch)\n$([[ \j -gt 0 ]] && { jobs; echo "\n"; })\! \$ '
-            echo "\[\e]0;\u@\h: \w\a\]"
-            ;;
-        *)
-            echo ""
-            ;;
-    esac
-}
-
-testPr () {
-    echo "\u@\h: \w"
-}
-
-# Cf comments above re doing this better by moving up the definitions of the color codes,
-# then undefining them if there is no color support. Would need to figure the Cygwin nonsense.
+# now set the prompt: a newline; info about the last command;
+# user@host and curdir, both coloured; git info; and anything
+# in the background...
 PS1='\n$(RC=$?; interpretRC $RC)\n$(_green)\u@\h$(_normal):$(_blue)\w$(_normal)$(whatBranch)$(anyJobs)\n\! \$ '
-# there may be a better way of doing this, will experiment on an Xterm
-PS1="$(setXtermTitle)${PS1}"
+
+# ...if on an appropriate machine, set the window title
+# initial experiments show this is still the better way; I cannot
+# integrate this directly into PS1, because it needs to be evaluated
+# at prompt time but not included in the prompt
+if  isCygwin || [[ $TERM =~ ^xterm ]] || [[ $TERM =~ ^rxvt ]]; then
+    setXtermTitle="\[${_xtitle}\u@\h: \w\a\]"
+    PS1="${setXtermTitle}${PS1}"
+fi
 
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
