@@ -300,10 +300,15 @@ PS1='\n$(RC=$?; interpretRC $RC)\n$(_green)\u@\h$(_normal):$(_blue)\w$(_normal)$
 # initial experiments show this is still the better way; I cannot
 # integrate this directly into PS1, because it needs to be evaluated
 # at prompt time but not included in the prompt
-if  isCygwin || [[ $TERM =~ ^xterm ]] || [[ $TERM =~ ^rxvt ]]; then
+if  isCygwin || [[ $TERM =~ ^xterm ]] || [[ $TERM =~ ^rxvt ]] ; then
     setXtermTitle="\[${_xtitle}\u@\h: \w\a\]"
     PS1="${setXtermTitle}${PS1}"
 fi
+# for some reason, the above does NOT work under TMUX,
+# where '$TERM == screen-255color',  e.g., if I add
+# '|| [[ $TERM == screen-256color ]]' as a condition
+# to the if...fi, but it does work on hosts on which
+# I run tmux; tmux is swallowing the escapes, maybe?
 
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
