@@ -229,7 +229,7 @@ export LESS="-j22 -R -F -s -X -z-3 -e"
 # the variableversions exist to be used directly, e.g., in
 # functions called by PS1. Using the variable versions in
 # PS1 causes them to be displayed verbatim, not interpreted.
-_xtitle='\e]0;'    ;    _xtitle () { echo -e "${_xtitle}" ; }
+_termTitle='\e]0;'    ;    _termTitle () { echo -e "${_termTitle}" ; }
 
 # decide whether or not to use colour, based
 # on terminal type or platform capabilities
@@ -300,15 +300,13 @@ PS1='\n$(RC=$?; interpretRC $RC)\n$(_green)\u@\h$(_normal):$(_blue)\w$(_normal)$
 # initial experiments show this is still the better way; I cannot
 # integrate this directly into PS1, because it needs to be evaluated
 # at prompt time but not included in the prompt
-if  isCygwin || [[ $TERM =~ ^xterm ]] || [[ $TERM =~ ^rxvt ]] ; then
-    setXtermTitle="\[${_xtitle}\u@\h: \w\a\]"
-    PS1="${setXtermTitle}${PS1}"
+if  isCygwin || [[ $TERM =~ ^xterm ]] || [[ $TERM =~ ^rxvt ]] || [[ $TERM == screen-256color ]]; then
+    setTermTitle="\[${_termTitle}\u@\h: \w\a\]"
+    # special escape sequence for tmux, with exact character order determined empirically
+    # cf https://github.com/tmux/tmux/wiki/FAQ#what-is-the-passthrough-escape-sequence-and-how-do-i-use-it
+    [[ $TERM == screen-256color ]] && setTermTitle="\ePtmux;\[\e${_termTitle}\u@\h: \w\a\]\e\\\\"
+    PS1="${setTermTitle}${PS1}"
 fi
-# for some reason, the above does NOT work under TMUX,
-# where '$TERM == screen-255color',  e.g., if I add
-# '|| [[ $TERM == screen-256color ]]' as a condition
-# to the if...fi, but it does work on hosts on which
-# I run tmux; tmux is swallowing the escapes, maybe?
 
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
