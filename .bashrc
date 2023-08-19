@@ -297,9 +297,20 @@ anyJobs () {
 PS1='\n$(RC=$?; interpretRC $RC)\n$(_green)\u@\h$(_normal):$(_blue)\w$(_normal)$(whatBranch)$(anyJobs)\n\! \$ '
 
 # ...if on an appropriate machine, set the window title
+#
+# Are there any inappropriate machines? Is this universal? I know not.
+#
 # initial experiments show this is still the better way; I cannot
 # integrate this directly into PS1, because it needs to be evaluated
 # at prompt time but not included in the prompt
+# NOTE1: "I cannot integrate this directly" because I haven't puzzled
+#        out the escape sequencing
+# NOTE2: While this might seem like a place for PROMPT_COMMAND, it is,
+#        in some ways, easier to integrate into PS1 because the relevant
+#        "escapes" (\u for uid -n, \h for hostname, \w for pwd, and \a
+#        for bell) are available in PS1 - sure, sure, they could be
+#        integrated into setTermTitle, but the effort to do the below
+#        is complete, so if it ain't broke....
 if  isCygwin || [[ $TERM =~ ^xterm ]] || [[ $TERM =~ ^rxvt ]] || [[ $TERM == screen-256color ]]; then
     setTermTitle="\[${_termTitle}\u@\h: \w\a\]"
     # special escape sequence for tmux, with exact character order determined empirically
