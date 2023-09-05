@@ -52,6 +52,8 @@ nnoremap <Leader>v <C-w><C-v><C-l>:e $MYVIMRC<cr>
 nnoremap <Leader>s :source $MYVIMRC<cr>
 " browse old files
 nnoremap <Leader>o :browse oldfiles<CR>
+" set syntax to TOML
+nnoremap <Leader>t :setlocal syntax=toml<CR>
 
 " swap default highlights for active and inactive panes
 highlight StatusLineNC   term=bold,reverse cterm=bold,reverse gui=bold,reverse
