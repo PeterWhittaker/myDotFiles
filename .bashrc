@@ -291,7 +291,7 @@ interpretRC () {
 }
 
 anyJobs () {
-    [[ $(jobs) ]] && { echo "\n"; jobs; } || echo ""
+    [[ $(jobs) ]] && jobs
 }
 
 # now set the prompt: a newline; info about the last command;
