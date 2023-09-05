@@ -278,6 +278,9 @@ interpretRC () {
         137)
             echo -e "${_red}Last command KILLED!${_normal}"
             ;;
+        141)
+            isLinux && echo -e "${_purple}Last command ended with SIGPIPE; probably OK....${_normal}"
+            ;;
         146|148)
             [[ ( isMacos && $_RC -eq 146 ) || ( isLinux && $_RC -eq 148 ) ]] && echo -e "${_purple}Last command suspended${_normal}"
             ;;
