@@ -18,9 +18,13 @@ sudo dnf -y install gcc
 sudo dnf -y install ncurses-devel
 sudo dnf -y install ncurses
 sudo dnf -y install libncurses-dev
+sudo dnf -y install epel-release
+sudo dnf -y install ShellCheck
 cd myPlumbing
 git clone https://github.com/vim/vim.git
 cd vim/src
 make
 sudo make install
 cd
+mkdir -p ~/.vim/pack/syntax/opt
+git -C ~/.vim/pack/syntax/opt clone git@github.com:dense-analysis/ale.git

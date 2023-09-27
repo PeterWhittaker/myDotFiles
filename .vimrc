@@ -54,6 +54,13 @@ nnoremap <Leader>s :source $MYVIMRC<cr>
 nnoremap <Leader>o :browse oldfiles<CR>
 " set syntax to TOML
 nnoremap <Leader>t :setlocal syntax=toml<CR>
+" run ALE manually
+nnoremap <Leader>a :packadd ale<CR>:ALELint<CR>
+" unabashedly stolen from https://til.hashrocket.com/posts/szvpivakjq-go-to-next-ale-error
+nnoremap ]a :ALENextWrap<CR>
+nnoremap [a :ALEPreviousWrap<CR>
+nnoremap ]A :ALELast<CR>
+nnoremap [A :ALEFirst<CR>
 
 " swap default highlights for active and inactive panes
 highlight StatusLineNC   term=bold,reverse cterm=bold,reverse gui=bold,reverse
