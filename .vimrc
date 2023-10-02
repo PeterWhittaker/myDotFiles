@@ -139,10 +139,10 @@ map [6~ :bn
 " add Ss to search for and highlight UNIX/Linux paths
 command! -nargs=1 Ss let @/ = <q-args>|set hlsearch
 
-" this was 'packadd', but it fails with vim on RHEL 7.[78]; use runtime
-runtime! macros/matchit.com
-" load the Man plugin
-runtime! ftplugin/man.vim
+" load the matchit plugin - the distributed version is likely fine
+runtime macros/matchit.vim
+" load the Man plugin - not that I use it much, or miss it
+runtime ftplugin/man.vim
 
 " remove all autocmds, in case .vimrc is loaded twice, e.g., buffer jumping
 " except that this broke my syntax highlighting when in modifiable mode
