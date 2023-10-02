@@ -3,4 +3,4 @@ git@github.com:mbbill/undotree.git vim always
 git@github.com:tpope/vim-commentary.git vim always
 git@github.com:tpope/vim-surround.git vim       # consider repeat.vim if I start using this
 git@github.com:dense-analysis/ale.git development always
-# investigate https://github.com/svermeulen/vim-easyclip as well
+# investigate https://github.com/svermeulen/vim-easyclip as well - though I am not sure I have this problem
