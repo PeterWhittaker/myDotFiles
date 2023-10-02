@@ -55,7 +55,9 @@ nnoremap <Leader>o :browse oldfiles<CR>
 " set syntax to TOML
 nnoremap <Leader>t :setlocal syntax=toml<CR>
 " run ALE manually
-nnoremap <Leader>a :packadd ale<CR>:ALELint<CR>
+"nnoremap <Leader>a :packadd ale<CR>:ALEToggle<CR>
+" load it automatically, toggling it on and off....
+nnoremap <Leader>a :ALEToggle<CR>
 " unabashedly stolen from https://til.hashrocket.com/posts/szvpivakjq-go-to-next-ale-error
 nnoremap ]a :ALENextWrap<CR>
 nnoremap [a :ALEPreviousWrap<CR>
