@@ -1,5 +1,5 @@
 git@github.com:airblade/vim-gitgutter.git development
-git@github.com:sjl/gundo.vim.git vim
+git@github.com:mbbill/undotree.git vim always
 git@github.com:tpope/vim-commentary.git vim
 git@github.com:tpope/vim-surround.git vim
 git@github.com:dense-analysis/ale.git development always
