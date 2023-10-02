@@ -63,7 +63,11 @@ nnoremap ]a :ALENextWrap<CR>
 nnoremap [a :ALEPreviousWrap<CR>
 nnoremap ]A :ALELast<CR>
 nnoremap [A :ALEFirst<CR>
+" for the undotree plugin...
 nnoremap <Leader>U :UndotreeToggle<CR>
+" for the gitgutter plugin - which I am not yet sure about
+nnoremap <Leader>GL :packadd vim-gitgutter<CR>:set updatetime=100<CR>
+nnoremap <Leader>G :GitGutterToggle<CR>
 
 " swap default highlights for active and inactive panes
 highlight StatusLineNC   term=bold,reverse cterm=bold,reverse gui=bold,reverse
