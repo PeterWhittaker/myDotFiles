@@ -68,6 +68,8 @@ nnoremap <Leader>U :UndotreeToggle<CR>
 " for the gitgutter plugin - which I am not yet sure about
 nnoremap <Leader>GL :packadd vim-gitgutter<CR>:set updatetime=100<CR>
 nnoremap <Leader>G :GitGutterToggle<CR>
+" for the vim-surround plugin - for which I might want repeat.vim at some point
+nnoremap <Leader>S :packadd vim-surround<CR>
 
 " swap default highlights for active and inactive panes
 highlight StatusLineNC   term=bold,reverse cterm=bold,reverse gui=bold,reverse
