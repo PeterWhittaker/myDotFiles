@@ -65,6 +65,23 @@ nnoremap ]A :ALELast<CR>
 nnoremap [A :ALEFirst<CR>
 " for the undotree plugin...
 nnoremap <Leader>U :UndotreeToggle<CR>
+if !exists('g:undotree_WindowLayout')
+    let g:undotree_WindowLayout = 4
+endif
+if !exists('g:undotree_SplitWidth')
+    if exists('g:undotree_ShortIndicators') && g:undotree_ShortIndicators == 1
+        let g:undotree_SplitWidth = 40
+    else
+        let g:undotree_SplitWidth = 50
+    endif
+endif
+" if !exists('g:undotree_DiffAutoOpen')
+"     let g:undotree_DiffAutoOpen = 1
+" endif
+if !exists('g:undotree_SetFocusWhenToggle')
+        let g:undotree_SetFocusWhenToggle = 1
+endif
+
 " for the gitgutter plugin - which I am not yet sure about
 nnoremap <Leader>GL :packadd vim-gitgutter<CR>:set updatetime=100<CR>
 nnoremap <Leader>G :GitGutterToggle<CR>
