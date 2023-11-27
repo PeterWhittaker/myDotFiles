@@ -186,3 +186,24 @@ autocmd VimEnter * if !&modifiable | set nofoldenable | endif
 " autocmd StdinReadPost * set nofoldenable
 " hmm, I am tempted by this one too
 "set foldmethod=manual
+
+" " If your goal, while typing in insert mode, is to automatically soft-wrap text (only visually) at the edge of the window:
+" set number # (optional - will help to visually verify that it's working)
+" set textwidth=0
+" set wrapmargin=0
+" set wrap
+" set linebreak # (optional - breaks by word rather than character)
+
+" " If your goal, while typing insert mode, is to automatically hard-wrap text (by inserting a new line into the actual text file) at 80 columns:
+" set number # (optional - will help to visually verify that it's working)
+" set textwidth=80
+" set wrapmargin=0
+" set formatoptions+=t
+" set linebreak # (optional - breaks by word rather than character)
+
+" " If your goal, while typing in insert mode, is to automatically soft-wrap text (only visually) at 80 columns:
+" set number # (optional - will help to visually verify that it's working)
+" set textwidth=0
+" set wrapmargin=0
+" set wrap set linebreak # (optional - breaks by word rather than character)
+" set columns=80 # <<< THIS IS THE IMPORTANT PART
