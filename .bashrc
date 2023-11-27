@@ -253,14 +253,15 @@ else
 fi
 
 whatBranch () {
-    onBranch=$(git rev-parse --abbrev-ref HEAD 2> /dev/null)
+    local onBranch=""
+    onBranch="'$(git rev-parse --abbrev-ref HEAD 2> /dev/null)'"
     if [[ $? -eq 0 ]]; then
         echo ""
-        status=""
-        [[ $(git rev-parse --is-inside-git-dir) == "false" ]] && status="$(git status -s)" || onBranch+=' NOT IN WORK TREE!!!'
+        local status=""; local statMsg="";
+        [[ $(git rev-parse --is-inside-git-dir) == "false" ]] && status="$(git status -s)" || onBranch+=" NOT IN WORK TREE!!!"
         # easy way to fix presence of LF - porcelain uses NUL, which is worse
-        [[ ! -z $status ]] && statMsg="($(echo $status))"
-        echo -e "${_red}On branch '$onBranch'${_normal}${statMsg}"
+        [[ $status ]] && statMsg="($(echo $status))"
+        echo -e "${_red}On branch ${onBranch}${_normal}${statMsg}"
     else
         echo ""
     fi
@@ -282,7 +283,7 @@ interpretRC () {
             isLinux && echo -e "${_purple}Last command ended with SIGPIPE; probably OK....${_normal}"
             ;;
         146|148)
-            [[ ( isMacos && $_RC -eq 146 ) || ( isLinux && $_RC -eq 148 ) ]] && echo -e "${_purple}Last command suspended${_normal}"
+            { { isMacOS && test "$_RC" -eq 146; } || { isLinux && test "$_RC" -eq 148; } } && echo -e "${_purple}Last command suspended${_normal}"
             ;;
         *)
             echo -e "${_red}Last command exited with: $_RC${_normal}"
