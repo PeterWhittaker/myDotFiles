@@ -143,13 +143,15 @@ checkFor () {
 if isMacOS; then
 
     # linked brew formula
-    checkFor PATH /usr/local/bin
-    
+    checkFor PATH "/usr/local/bin"
+
+    checkFor PATH "/usr/local/opt/bash/bin"
+
     # ic4uc items
     checkFor PATH "/usr/local/opt/icu4c/bin"
     checkFor PATH "/usr/local/opt/icu4c/sbin"
-    checkFor LDFLAGS /usr/local/opt/icu4c/lib"
-    checkFor CPPFLAGS /usr/local/opt/icu4c/include"
+    checkFor LDFLAGS "/usr/local/opt/icu4c/lib"
+    checkFor CPPFLAGS "/usr/local/opt/icu4c/include"
 
     # ruby items
     checkFor PATH "/usr/local/opt/ruby/bin"
