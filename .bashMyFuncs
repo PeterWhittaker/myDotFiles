@@ -22,8 +22,8 @@ idf () {
         local fileInfo
         fileInfo=$(file "$file")
         printf "%s\n" "$fileInfo"
-        local infoLen=${#fileInfo}
-        while ((infoLen--)); do printf "="; done; printf "\n"
+        local underline="${fileInfo//?/=}"
+        printf "%s\n" "$underline"
         ls -l "$file"
         printf "\n"
         head -5 "$file"
