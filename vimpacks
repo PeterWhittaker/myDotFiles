@@ -5,4 +5,5 @@ git@github.com:tpope/vim-surround.git vim always
 git@github.com:tpope/vim-repeat.git vim always
 git@github.com:tpope/vim-speeddating.git vim always
 git@github.com:dense-analysis/ale.git development always
+git@github.com:tpope/vim-rsi.git vim always
 # investigate https://github.com/svermeulen/vim-easyclip as well - though I am not sure I have this problem

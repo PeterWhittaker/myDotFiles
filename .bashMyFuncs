@@ -14,3 +14,20 @@ if ! isMacOS; then
         date -d "@${1:-$(seconds)}"
     }
 fi
+
+idf () {
+    printf "\n"
+    for ((cnt=1; cnt <= $#; cnt++)); do
+        local file="${!cnt}"
+        local fileInfo
+        fileInfo=$(file "$file")
+        printf "%s\n" "$fileInfo"
+        local underline="${fileInfo//?/=}"
+        printf "%s\n" "$underline"
+        ls -l "$file"
+        printf "\n"
+        head -5 "$file"
+        [[ $cnt -lt $# ]] && printf "\n"
+    done
+    true
+}
