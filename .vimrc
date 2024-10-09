@@ -105,7 +105,7 @@ set visualbell
 " set t_vb=
 set nostartofline
 " use ':' to enable selecting in visual mode
-set mouse=nvh
+"set mouse=nvh
 
 " always show a status line
 set laststatus=2
