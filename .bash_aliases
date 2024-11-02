@@ -147,8 +147,6 @@ alias gp='go /var/sphyrna/processes'
 alias gbld='go /var/sphyrna/build'
 alias gdb='go /var/sphyrna/ongdb-service'
 alias gbootstrap='go /var/sphyrna/vm-bootstrap'
-alias tmv='tmux new -A -s Verity'
-alias tmd='tmux new -A -s Development'
 
 # This one is awesome....
 alias man='MANWIDTH=$((COLUMNS > 72 ? 72 : COLUMNS)) man'
