@@ -1,9 +1,3 @@
-fileManifest=""
-
-addThis () {
-    fileManifest+=" $1"
-}
-
 addThis .bashrc
 addThis .bash_profile
 addThis .bash_aliases
