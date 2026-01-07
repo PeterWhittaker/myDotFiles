@@ -30,6 +30,8 @@
     dw = diff --word-diff
     dt = difftool
     mt = mergetool
+    tags = !git hook run ctags
+    ic = !git init && git tags
     #switch = checkout
 
 [push]
