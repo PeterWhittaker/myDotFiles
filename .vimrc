@@ -207,3 +207,6 @@ autocmd VimEnter * if !&modifiable | set nofoldenable | endif
 " set wrapmargin=0
 " set wrap set linebreak # (optional - breaks by word rather than character)
 " set columns=80 # <<< THIS IS THE IMPORTANT PART
+
+" sensible defaults for tags
+set tags=tags;,.git/tags;
