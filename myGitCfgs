@@ -10,11 +10,12 @@
         username = pwhittaker
         helper = cache --timeout=14400
 
-[sendemail]
-    smtpEncryption = tls
-    smtpServer = smtp.gmail.com
-    smtpUser = pww@edgekeep.com
-    smtpServerPort = 587
+# no EdgeKeep anymore, need to figure how this might work
+#[sendemail]
+#    smtpEncryption = tls
+#    smtpServer = smtp.gmail.com
+#    smtpUser = pww@edgekeep.com
+#    smtpServerPort = 587
 
 [core]
         editor = vim
@@ -23,10 +24,16 @@
 
 [alias]
         lg = log --color --graph --pretty=format:'%Cred%h%Creset %>(32)%cD -%C(yellow)%d%Creset %<(35,trunc)%s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
-        lgh = log -n 5 --color --graph --pretty=format:'%Cred%h%Creset %>(32)%cD -%C(yellow)%d%Creset %<(35,trunc)%s %Cgreen(%cr) %C(bold blue)<%an>%Creset' 
+        lgh = log -n 5 --color --graph --pretty=format:'%Cred%h%Creset %>(32)%cD -%C(yellow)%d%Creset %<(35,trunc)%s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
         incmt = show --name-only
         sps = !git stash && git pull && git stash pop
+    dw = diff --word-diff
+    dt = difftool
+    mt = mergetool
+    #switch = checkout
 
+[push]
+    default = simple
 [fetch]
         prune = true
 
@@ -35,3 +42,25 @@
 
 [init]
         defaultBranch = main
+    templatedir = ~/.git_template
+
+#[column]
+#    ui = auto
+[tag]
+    sort = version:refname
+[branch]
+    sort = -committerdate
+[help]
+    autocorrect = prompt
+[diff]
+    algorithm = histogram
+    colorMoved = plain
+    mnemonicPrefix = true
+    renames = true
+    tool = vimdiff
+
+[difftool]
+    prompt = no
+
+[merge]
+    tool = vimdiff
